@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  --font-primary: "Roboto", sans-serif;
+
+  --color-primary: #9f8467;
+  --color-second: #f5f5dc;
+  --color-third: #848484;
+}
+
+@utility grid-areas-image-caption {
+  grid-template-areas: "gallery-image gallery-caption";
+}
+
+@utility grid-areas-caption-image {
+  grid-template-areas: "gallery-caption gallery-image";
+}
+
+@utility area-gallery-image {
+  grid-area: gallery-image;
+}
+@utility area-gallery-caption {
+  grid-area: gallery-caption;
+}
+
+/* Custom utilities for text truncation */
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-4 {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Prevent horizontal scroll */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+}

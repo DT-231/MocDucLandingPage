@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Trang chủ",
+    "path": "/"
+  },
+  {
+    "title": "Về chúng tôi",
+    "path": "/about-us"
+  },
+  {
+    "title": "Dịch vụ",
+    "path": "/services"
+  },
+  {
+    "title": "Dự án",
+    "path": "/projects"
+  },
+  {
+    "title": "Tin tức",
+    "path": "/news"
+  },
+  {
+    "title": "Liên hệ",
+    "path": "/contact"
+  }
+]
