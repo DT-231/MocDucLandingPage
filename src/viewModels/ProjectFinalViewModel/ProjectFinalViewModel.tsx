@@ -21,7 +21,7 @@ const ProjectFinalViewModel = ({ type, mode }: ProjectFinalViewModelProps) => {
     return () => window.removeEventListener('resize', checkIsMobile);
   }, []);
   return (
-    <div className="bg-[#f6fbf7]">
+    <div className="bg-[four]">
       <div className="2xl:max-w-[1400px] xl:max-w-7xl font-primary mx-auto py-6 sm:py-8 md:py-10 px-4">
         {type == "home" ? (
           <div className="text-center py-6 md:py-10 px-4">

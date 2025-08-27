@@ -1,11 +1,11 @@
 import BannerViewModel from "@/viewModels/BannerViewModel/BannerViewModel";
-import NewsListViewModel from "@/viewModels/NewsListViewModel/NewsListViewModel";
+import BlogsListViewModel from "@/viewModels/BlogsListViewModel/BlogsListViewModel";
 import ContactViewModel from "@/viewModels/ContactViewModel/ContactViewModel";
 import FormContactViewModel from "@/viewModels/FormContactViewModel/FormContactViewModel";
 import QuestionViewModel from "@/viewModels/QuestionViewModel/QuestionViewModel";
 import { Phone } from "lucide-react";
 
-const NewsView = () => {
+const BlogsView = () => {
   return (
     <div className="min-w-screen">
       <BannerViewModel
@@ -13,7 +13,7 @@ const NewsView = () => {
         title="TIN TỨC"
         subtitle="TRANG CHỦ / TIN TỨC"
       />
-      <NewsListViewModel />
+      <BlogsListViewModel />
       <ContactViewModel
         title={"HÃY TRỞ THÀNH MỘT ĐỐI TÁC CỦA MỘC ĐỨC NGAY HÔM NAY"}
         href="tel:0902300703"
@@ -30,4 +30,4 @@ const NewsView = () => {
   );
 };
 
-export default NewsView;
+export default BlogsView;

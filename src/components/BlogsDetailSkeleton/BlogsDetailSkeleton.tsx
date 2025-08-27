@@ -1,6 +1,6 @@
 import React from 'react';
 
-const NewsDetailSkeleton: React.FC = () => {
+const BlogsDetailSkeleton: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 animate-pulse">
       {/* Hero Section Skeleton */}
@@ -108,4 +108,4 @@ const NewsDetailSkeleton: React.FC = () => {
   );
 };
 
-export default NewsDetailSkeleton;
+export default BlogsDetailSkeleton;

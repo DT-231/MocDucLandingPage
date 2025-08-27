@@ -36,13 +36,17 @@ const FormContactViewModel: React.FC<FormContactViewModelProps> = ({
 
   return (
     <div
-      className={`py-8 sm:py-12 md:py-16 relative overflow-hidden ${className}`}
-      style={{
-        // Nếu ở trang contact thì dùng màu #f6fbf7, còn không thì để transparent hoặc màu khác
-        background: isContactPage
-          ? "#f6fbf7"
-          : "bg-[linear-gradient(0deg,rgba(255,255,255,0.71)_0%,#9F8467_100%)]",
-      }}
+      className={`py-8 sm:py-12 md:py-16 relative overflow-hidden ${className} ${
+        isContactPage
+          ? "bg-four"
+          : "bg-[linear-gradient(0deg,rgba(255,255,255,0.71)_0%,#9F8467_100%)]"
+      }`}
+      // style={{
+      //   // Nếu ở trang contact thì dùng màu four, còn không thì để transparent hoặc màu khác
+      //   background: isContactPage
+      //     ? "bg-four"
+      //     : "bg-[linear-gradient(0deg,rgba(255,255,255,0.71)_0%,#9F8467_100%)]",
+      // }}
     >
       {/* Desktop gradient overlay */}
       {/* <div 

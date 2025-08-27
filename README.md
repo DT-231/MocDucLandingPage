@@ -1,69 +1,150 @@
-# React + TypeScript + Vite
+# 🏗️ Mộc Đức Landing Page
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> Website landing page chuyên nghiệp cho công ty xây dựng và thiết kế nội thất Mộc Đức
 
-Currently, two official plugins are available:
+## 📋 Mục Lục
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Giới thiệu dự án](#giới-thiệu-dự-án)
+- [Công nghệ sử dụng](#công-nghệ-sử-dụng)
+- [Cài đặt và chạy dự án](#cài-đặt-và-chạy-dự-án)
+- [Cấu trúc dự án](#cấu-trúc-dự-án)
+- [Tính năng website](#tính-năng-website)
+- [Tích hợp WordPress](#tích-hợp-wordpress)
+- [Build và Deploy](#build-và-deploy)
 
-## Expanding the ESLint configuration
+## 🎯 Giới thiệu dự án
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+**Mộc Đức Landing Page** là website giới thiệu doanh nghiệp cho công ty xây dựng và thiết kế nội thất Mộc Đức với hơn **15 năm kinh nghiệm** trong lĩnh vực thi công và thiết kế nội thất.
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### ✨ Đặc điểm:
+- 🏢 Giới thiệu đầy đủ về công ty và dịch vụ
+- 📱 Responsive design, tương thích mọi thiết bị  
+- 🎨 Thiết kế hiện đại, chuyên nghiệp
+- ⚡ Tốc độ tải trang nhanh
+- 🌐 Tích hợp với WordPress backend
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## 🚀 Công nghệ sử dụng
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- **React 19.1.1** - Thư viện UI chính
+- **TypeScript ~5.8.3** - Ngôn ngữ lập trình
+- **Vite 7.1.0** - Build tool và dev server
+- **TailwindCSS 4.1.11** - CSS Framework
+- **React Router DOM 7.8.0** - Routing
+- **Axios 1.11.0** - HTTP client cho API calls
+- **WordPress REST API** - Backend content management
+
+## ️ Cài đặt và chạy dự án
+
+### Yêu cầu hệ thống
+- **Node.js** >= 18.0.0
+- **npm** 
+
+### Cài đặt và chạy
+```bash
+# Cài đặt packages
+npm install
+
+# Khởi động dev server
+npm run dev
+# Server sẽ chạy tại http://localhost:5173
+
+# Build cho production
+npm run build
+
+# Kiểm tra lỗi code
+npm run lint
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📂 Cấu trúc dự án
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Dự án áp dụng kiến trúc **MVVM (Model - View - ViewModel)**:
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+├── assets/                 # Hình ảnh, icons
+├── components/             # Reusable components  
+├── layouts/               # Layout components (Header, Footer)
+├── models/                # TypeScript interfaces
+├── routes/                # Route definitions
+├── view/                  # Pages/Views (Home, About, Projects, ...)
+├── viewModels/            # Business logic
+└── configs/               # Cấu hình (axios, ...)
+```
+
+## 🎨 Tính năng website
+
+### 🏠 Trang chủ (Home)
+- Banner hero với thông tin công ty
+- Giới thiệu về công ty Mộc Đức  
+- Dịch vụ nổi bật
+- Dự án tiêu biểu
+- Form liên hệ
+
+### 👥 Giới thiệu (About Us)  
+- Lịch sử và kinh nghiệm 15+ năm
+- Thống kê dự án đã thực hiện
+
+### 🏗️ Dự án (Projects)
+- Danh sách dự án theo danh mục
+- Chi tiết dự án với hình ảnh
+- Thông tin kỹ thuật
+
+### 🛠️ Dịch vụ (Services)
+- **Thiết kế trọn gói**
+- **Thi công & sửa chữa**  
+- **Nội thất & trang trí**
+
+### 📰 Blog/Tin tức
+- Danh sách bài viết
+- Chi tiết bài viết
+- Chia sẻ social media
+
+### 📞 Liên hệ (Contact)
+- Form liên hệ
+- Thông tin công ty
+- Hotline: **0902300703**
+
+## 🔗 Tích hợp WordPress
+
+Website tích hợp với WordPress để quản lý nội dung:
+
+```typescript
+// API endpoint
+baseURL: 'http://localhost:8085/'
+```
+
+### WordPress Theme Files:
+```
+MD_Landing/
+├── index.php        # Main theme template
+├── functions.php    # Theme functions  
+├── style.css        # Theme styles
+└── dist/           # Built React assets
+```
+
+## � Build và Deploy
+
+### Build Production
+```bash
+npm run build
+```
+
+### Deploy Process
+1. Build project: `npm run build`
+2. Upload `MD_Landing/` folder lên server WordPress
+3. Activate theme trong WordPress admin
+4. Website sẽ hoạt động với React frontend + WordPress backend
+
+---
+
+## � Thông tin liên hệ
+
+**Công ty Xây dựng Nội thất Mộc Đức**
+- **Hotline**: 0902300703
+- **Kinh nghiệm**: 15+ năm trong lĩnh vực xây dựng và nội thất
+
+---
+
+<div align="center">
+  <p><strong>React + TypeScript + TailwindCSS + WordPress</strong></p>
+</div>

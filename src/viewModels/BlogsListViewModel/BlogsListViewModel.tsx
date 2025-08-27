@@ -2,10 +2,10 @@
 
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { sampleNews } from '@/data/newsData';
-import type { NewsListViewModelProps } from '@/models/NewsListViewModelType/NewsListViewModelType';
+import { sampleBlogs } from '@/data/newsData';
+import type { BlogsListViewModelProps } from '@/models/BlogsListViewModelType/BlogsListViewModelType';
 
-const NewsListViewModel: React.FC<NewsListViewModelProps> = ({
+const BlogsListViewModel: React.FC<BlogsListViewModelProps> = ({
   limit,
   showReadMore = true,
   className = ''
@@ -13,9 +13,9 @@ const NewsListViewModel: React.FC<NewsListViewModelProps> = ({
   // State để quản lý số lượng bài viết hiển thị khi có chức năng "Load more"
   const [visibleCount, setVisibleCount] = useState<number>(limit || 6);
 
-  // Giới hạn số lượng tin tức hiển thị
-  const displayedNews = useMemo(() => {
-    return sampleNews.slice(0, visibleCount);
+  // Giới hạn số lượng blogs hiển thị
+  const displayedBlogs = useMemo(() => {
+    return sampleBlogs.slice(0, visibleCount);
   }, [visibleCount]);
 
   // Xử lý khi người dùng muốn xem thêm bài viết
@@ -24,7 +24,7 @@ const NewsListViewModel: React.FC<NewsListViewModelProps> = ({
   };
 
   // Kiểm tra còn bài viết để load thêm không
-  const hasMoreNews = displayedNews.length < sampleNews.length;
+  const hasMoreBlogs = displayedBlogs.length < sampleBlogs.length;
 
   return (
     <div className={`w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 ${className}`}>
@@ -42,15 +42,15 @@ const NewsListViewModel: React.FC<NewsListViewModelProps> = ({
       {/* Layout chính - bài viết lớn bên trái và danh sách bên phải */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
         {/* Bài viết chính (bên trái) */}
-        {displayedNews.length > 0 && (
+        {displayedBlogs.length > 0 && (
           <div className="lg:col-span-2">
             <article className="bg-white">
               {/* Hình ảnh chính */}
-              <Link to={`/news/${displayedNews[0].slug || displayedNews[0].id}`} className="block group">
+              <Link to={`/blogs/${displayedBlogs[0].slug || displayedBlogs[0].id}`} className="block group">
                 <div className="relative overflow-hidden aspect-[4/3] mb-8">
                   <img 
-                    src={displayedNews[0].image} 
-                    alt={displayedNews[0].title}
+                    src={displayedBlogs[0].image} 
+                    alt={displayedBlogs[0].title}
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                     loading="lazy"
                   />
@@ -58,10 +58,10 @@ const NewsListViewModel: React.FC<NewsListViewModelProps> = ({
                   <div className="absolute bottom-6 left-6">
                     <div className="bg-white/90 backdrop-blur-sm px-4 py-2 text-center min-w-[80px]">
                       <div className="text-2xl font-bold text-[#8B7355]">
-                        {displayedNews[0].date.split(' ')[0]}
+                        {displayedBlogs[0].date.split(' ')[0]}
                       </div>
                       <div className="text-xs text-gray-600 uppercase">
-                        {displayedNews[0].date.split(' ').slice(1).join(' ')}
+                        {displayedBlogs[0].date.split(' ').slice(1).join(' ')}
                       </div>
                     </div>
                   </div>
@@ -72,20 +72,20 @@ const NewsListViewModel: React.FC<NewsListViewModelProps> = ({
               <div className="space-y-4">
                 <h3 className="text-xl font-bold text-gray-900 uppercase tracking-wide leading-tight">
                   <Link 
-                    to={`/news/${displayedNews[0].slug || displayedNews[0].id}`}
+                    to={`/blogs/${displayedBlogs[0].slug || displayedBlogs[0].id}`}
                     className="hover:text-[#8B7355] transition-colors duration-200"
                   >
-                    {displayedNews[0].title}
+                    {displayedBlogs[0].title}
                   </Link>
                 </h3>
 
                 <p className="text-gray-600 leading-relaxed text-sm">
-                  {displayedNews[0].description}
+                  {displayedBlogs[0].description}
                 </p>
 
                 {showReadMore && (
                   <Link 
-                    to={`/news/${displayedNews[0].slug || displayedNews[0].id}`}
+                    to={`/blogs/${displayedBlogs[0].slug || displayedBlogs[0].id}`}
                     className="inline-flex items-center text-[#8B7355] hover:text-[#6B5A42] font-medium transition-colors duration-200 group text-sm uppercase tracking-wider"
                   >
                     Read More
@@ -111,14 +111,14 @@ const NewsListViewModel: React.FC<NewsListViewModelProps> = ({
 
         {/* Danh sách bài viết nhỏ (bên phải) */}
         <div className="space-y-6">
-          {displayedNews.slice(1, 6).map((news) => (
-            <article key={news.id} className="flex gap-4 group">
+          {displayedBlogs.slice(1, 6).map((blogs) => (
+            <article key={blogs.id} className="flex gap-4 group">
               {/* Hình ảnh nhỏ */}
-              <Link to={`/news/${news.slug || news.id}`} className="flex-shrink-0">
+              <Link to={`/blogs/${blogs.slug || blogs.id}`} className="flex-shrink-0">
                 <div className="w-20 h-20 overflow-hidden">
                   <img 
-                    src={news.image} 
-                    alt={news.title}
+                    src={blogs.image} 
+                    alt={blogs.title}
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                     loading="lazy"
                   />
@@ -129,23 +129,23 @@ const NewsListViewModel: React.FC<NewsListViewModelProps> = ({
               <div className="flex-1 space-y-2">
                 <h4 className="text-sm font-bold text-gray-900 uppercase leading-tight">
                   <Link 
-                    to={`/news/${news.slug || news.id}`}
+                    to={`/blogs/${blogs.slug || blogs.id}`}
                     className="hover:text-[#8B7355] transition-colors duration-200 line-clamp-2"
                   >
-                    {news.title}
+                    {blogs.title}
                   </Link>
                 </h4>
                 
                 <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed">
-                  {news.description}
+                  {blogs.description}
                 </p>
 
                 <div className="flex items-center gap-4 text-xs text-gray-400 uppercase">
-                  <span>{news.date}</span>
-                  {news.readTime && (
+                  <span>{blogs.date}</span>
+                  {blogs.readTime && (
                     <>
                       <span>•</span>
-                      <span>{news.readTime}</span>
+                      <span>{blogs.readTime}</span>
                     </>
                   )}
                 </div>
@@ -156,7 +156,7 @@ const NewsListViewModel: React.FC<NewsListViewModelProps> = ({
       </div>
 
       {/* Nút Load More */}
-      {hasMoreNews && (
+      {hasMoreBlogs && (
         <div className="text-center mt-16">
           <button 
             className="bg-[#8B7355] hover:bg-[#6B5A42] text-white px-8 py-3 uppercase text-sm font-medium tracking-wider transition-colors duration-200"
@@ -168,7 +168,7 @@ const NewsListViewModel: React.FC<NewsListViewModelProps> = ({
       )}
 
       {/* Thông báo khi không có bài viết nào */}
-      {displayedNews.length === 0 && (
+      {displayedBlogs.length === 0 && (
         <div className="text-center py-20">
           <p className="text-gray-500">Không có bài viết nào trong danh mục này.</p>
         </div>
@@ -177,4 +177,4 @@ const NewsListViewModel: React.FC<NewsListViewModelProps> = ({
   );
 };
 
-export default NewsListViewModel;
+export default BlogsListViewModel;

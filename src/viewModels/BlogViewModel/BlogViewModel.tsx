@@ -1,19 +1,19 @@
 import React from "react";
-import { sampleNews } from "@/data/newsData";
-import NewsItem from "@/components/NewsItem/NewsItem";
+import { sampleBlogs } from "@/data/newsData";
+import BlogsItem from "@/components/BlogsItem/BlogsItem";
 
-interface NewsViewModelProps {
+interface BlogViewModelProps {
   limit?: number;
   className?: string;
   showViewAllButton?: boolean;
 }
 
-const NewsViewModel: React.FC<NewsViewModelProps> = ({
+const BlogViewModel: React.FC<BlogViewModelProps> = ({
   limit = 3,
   className = "",
   showViewAllButton = true,
 }) => {
-  const displayNews = limit ? sampleNews.slice(0, limit) : sampleNews;
+  const displayNews = limit ? sampleBlogs.slice(0, limit) : sampleBlogs;
 
   return (
     <section className={`py-16 bg-gray-50 ${className}`}>
@@ -28,12 +28,12 @@ const NewsViewModel: React.FC<NewsViewModelProps> = ({
         {/* News List */}
         <div className="space-y-6">
           {displayNews.map((news) => (
-            <NewsItem key={news.id} news={news} />
+            <BlogsItem key={news.id} blogs={news} />
           ))}
         </div>
 
         {/* View All Button */}
-        {showViewAllButton && limit && sampleNews.length > limit && (
+        {showViewAllButton && limit && sampleBlogs.length > limit && (
           <div className="text-center mt-12">
             <button className="px-8 py-3 bg-primary text-white font-medium rounded-lg hover:opacity-90 transition-all duration-200 shadow-sm hover:shadow-md">
               Xem tất cả tin tức
@@ -45,4 +45,4 @@ const NewsViewModel: React.FC<NewsViewModelProps> = ({
   );
 };
 
-export default NewsViewModel;
+export default BlogViewModel;

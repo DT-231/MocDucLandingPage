@@ -1,4 +1,4 @@
-export interface News {
+export interface Blogs {
   id: string;
   title: string;
   description: string;
@@ -9,14 +9,14 @@ export interface News {
   slug?: string;
 }
 
-export interface NewsListProps {
-  news: News[];
+export interface BlogsListProps {
+  blogs: Blogs[];
   showReadMore?: boolean;
   limit?: number;
 }
 
-export interface NewsItemProps {
-  news: News;
+export interface BlogsItemProps {
+  blogs: Blogs;
   showReadMore?: boolean;
   className?: string;
 }

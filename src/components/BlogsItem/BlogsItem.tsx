@@ -1,14 +1,14 @@
 import React from 'react';
-import type { News } from '@/models/NewsType/NewsType';
+import type { Blogs } from '@/models/NewsType/NewsType';
 
-interface NewsItemProps {
-  news: News;
+interface BlogsItemProps {
+  blogs: Blogs;
   showReadMore?: boolean;
   className?: string;
 }
 
-const NewsItem: React.FC<NewsItemProps> = ({ 
-  news, 
+const BlogsItem: React.FC<BlogsItemProps> = ({ 
+  blogs, 
   showReadMore = true, 
   className = "" 
 }) => {
@@ -18,8 +18,8 @@ const NewsItem: React.FC<NewsItemProps> = ({
         {/* Image Section */}
         <div className="relative w-full md:w-80 h-80 ">
           <img 
-            src={news.image} 
-            alt={news.title}
+            src={blogs.image} 
+            alt={blogs.title}
             className="w-full h-full object-cover"
             loading="lazy"
           />
@@ -27,10 +27,10 @@ const NewsItem: React.FC<NewsItemProps> = ({
           {/* Date Overlay */}
           <div className="absolute top-0 left-0 bg-white bg-opacity-95 px-4 py-3 ">
             <div className="text-2xl font-bold text-primary leading-none">
-              {news.date.split(' ')[0]}
+              {blogs.date.split(' ')[0]}
             </div>
             <div className="text-xs text-gray-600 mt-1 leading-tight uppercase tracking-wide">
-              {news.date.split(' ').slice(1).join(' ')}
+              {blogs.date.split(' ').slice(1).join(' ')}
             </div>
           </div>
         </div>
@@ -39,10 +39,10 @@ const NewsItem: React.FC<NewsItemProps> = ({
         <div className="flex-1 p-6 md:p-8 flex flex-col justify-between">
           <div>
             <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3 md:mb-4 leading-tight hover:text-primary transition-colors duration-200 cursor-pointer uppercase tracking-wide">
-              {news.title}
+              {blogs.title}
             </h3>
             <p className="text-gray-600 text-sm leading-relaxed line-clamp-3 md:line-clamp-4 mb-4 md:mb-6">
-              {news.description}
+              {blogs.description}
             </p>
           </div>
           
@@ -63,4 +63,4 @@ const NewsItem: React.FC<NewsItemProps> = ({
   );
 };
 
-export default NewsItem;
+export default BlogsItem;

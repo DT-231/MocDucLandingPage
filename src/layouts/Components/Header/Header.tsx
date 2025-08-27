@@ -39,11 +39,14 @@ const Header = () => {
     }
     
     return(
-        <header className={`header py-1 fixed top-0 left-0 right-0 z-50 flex items-center justify-between font-primary px-4 md:px-8 transition-all duration-300 ${
+        <header className={`header py-1 fixed top-0 left-0 right-0 z-50 flex items-center justify-between font-primary px-4 md:px-8 transition-all duration-300 
+            bg-[linear-gradient(0deg,rgba(255,255,255,0.05)_0%,rgba(185,165,144,0.740859)_0%,#9F8467_100%)]
+            `}> 
+            {/* ${
             isScrolled 
-                ? 'bg-primary/50 backdrop-blur-sm shadow-md' 
-                : 'bg-transparent'
-        }`}> 
+                ? 'bg-[linear-gradient(0deg,rgba(255,255,255,0.05)_0%,rgba(185,165,144,0.740859)_0%,#9F8467_100%)]' 
+                : 'bg-[linear-gradient(0deg,rgba(255,255,255,0.05)_0%,rgba(185,165,144,0.740859)_0%,#9F8467_100%)]'
+        } */}
             {/* logo */}
             <div className="logo-container flex-shrink-0">
                 <img  

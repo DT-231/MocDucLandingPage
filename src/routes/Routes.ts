@@ -4,9 +4,9 @@ import HomeView from "@view/Home/HomeView"
 import ProjectsView from "@view/Projects/ProjectsView"
 import ProjectDetailView from "@view/ProjectDetail/ProjectDetailView"
 import ServicesView from "@view/Services/ServicesView"
-import NewsView from "@view/News/NewsView"
+import BlogsView from "@/view/Blogs/BlogsView"
+import BlogsDetail from "@/view/Blogs/BlogsDetail"
 import ContactView from "@/view/Contact/ContactView"
-// import { NewsDetail } from "@/components/News"
 
 
 const publicRoutes:PublicRouteType[]  = [
@@ -15,8 +15,8 @@ const publicRoutes:PublicRouteType[]  = [
     { path: "/projects", component: ProjectsView },
     { path: "/project/:id", component: ProjectDetailView },
     { path: "/services", component: ServicesView },
-    { path: "/news", component: NewsView },
-    // { path: "/news/:slug", component: NewsDetail },
+    { path: "/blogs", component: BlogsView },
+    { path: "/blogs/:slug", component: BlogsDetail },
     { path: "/contact", component: ContactView },
 
 ]

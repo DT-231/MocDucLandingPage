@@ -1,6 +1,6 @@
-import type { News } from '@/models/NewsType/NewsType';
+import type { Blogs } from '@/models/NewsType/NewsType';
 
-export const sampleNews: News[] = [
+export const sampleBlogs: Blogs[] = [
   {
     id: '1',
     title: '10 MẸO HÀNG ĐẦU CHO THIẾT KẾ NỘI THẤT NHÀ BẾP CỦA BAN',

@@ -1,5 +1,5 @@
-export { default as NewsViewModel } from '../../viewModels/NewsViewModel/NewsViewModel';
-export { default as NewsItem } from '../NewsItem/NewsItem';
-export { default as NewsDetail } from '../../view/News/NewsDetail';
-export { sampleNews } from '../../data/newsData';
-export type { News, NewsListProps, NewsItemProps } from '../../models/NewsType/NewsType';
+export { default as BlogsViewModel } from '../../viewModels/BlogViewModel/BlogViewModel';
+export { default as BlogsItem } from '../BlogsItem/BlogsItem';
+// export { default as BlogsDetail } from '../../view/Blogs/BlogsDetail';
+export { sampleBlogs } from '../../data/newsData';
+export type { Blogs, BlogsListProps, BlogsItemProps } from '../../models/NewsType/NewsType';

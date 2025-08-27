@@ -4,7 +4,7 @@ import ProcessStepViewModel from "@viewModels/ProcessStepViewModel/ProcessStepVi
 import ContactViewModel from "@/viewModels/ContactViewModel/ContactViewModel";
 import ServiceViewModel from "@/viewModels/ServiceViewModel/ServiceViewModel";
 import ProjectFinalViewModel from "@/viewModels/ProjectFinalViewModel/ProjectFinalViewModel";
-import NewsViewModel from "@/viewModels/NewsViewModel/NewsViewModel";
+import BlogsViewModel from "@/viewModels/BlogViewModel/BlogViewModel";
 import { Phone } from "lucide-react";
 import ConstructionCategories from "@/viewModels/ConstructionCategories/ConstructionCategories";
 import QuestionViewModel from "@/viewModels/QuestionViewModel/QuestionViewModel";
@@ -33,7 +33,7 @@ const HomeView = () => {
         }
         classNameBtn="flex justify-center items-center tracking-[2px] sm:tracking-[3px] md:tracking-[4px] lg:tracking-[6px] gap-2 sm:gap-3"
       />
-      <NewsViewModel limit={3} />
+      <BlogsViewModel limit={3} />
       <ConstructionCategories />
       <QuestionViewModel />
       <FormContactViewModel/>
