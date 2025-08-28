@@ -1,0 +1,1 @@
+export { useScrollToTopViewModel } from './ScrollToTopViewModel';

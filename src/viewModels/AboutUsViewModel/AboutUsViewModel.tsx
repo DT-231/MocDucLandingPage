@@ -5,10 +5,10 @@ import CountUp from "react-countup";
 const AboutUsViewModel = () => {
   return (
     <div className="w-full bg-[#FEFFFA] py-8 md:py-16 px-4">
-      <div className="max-w-[1300px] mx-auto">
+      <div className="max-w-[1200px] mx-auto">
         {/* Title */}
         <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary tracking-wider">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary tracking-wider">
             ABOUT US
           </h2>
         </div>
@@ -33,10 +33,10 @@ const AboutUsViewModel = () => {
           </div>
 
           {/* Content */}
-          <div className="space-y-6 md:space-y-8 flex flex-col flex-6">
+          <div className="space-y-6 md:space-y-8 flex flex-col flex-6 gap-5">
             {/* Description */}
             <div>
-              <p className="text-third text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-light leading-[118%] tracking-[1px] md:tracking-[2px] text-justify">
+              <p className="text-third text-lg sm:text-xl md:text-2xl lg:text-3xl font-light leading-[118%] tracking-[1px] md:tracking-[2px] text-justify">
                 Chúng tôi là công ty nội thất với +15 năm kinh nghiệm trong lĩnh
                 vực thi công và thiết kế nội thất. Tự tin là đối tác đáng tin
                 cậy trong các lĩnh vực thi công nội thất trọn gói. Thi công
@@ -47,7 +47,7 @@ const AboutUsViewModel = () => {
             {/* Statistics */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 font-bold">
               <div className="text-center">
-                <div className="text-base sm:text-lg md:text-2xl lg:text-3xl h-auto sm:h-20 text-primary tracking-wider mb-2">
+                <div className="text-base sm:text-lg md:text-2xl h-auto sm:h-20 text-primary tracking-wider mb-2">
                   DỰ ÁN ĐÃ LÀM
                 </div>
                 <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-primary">
@@ -55,13 +55,15 @@ const AboutUsViewModel = () => {
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-base sm:text-lg md:text-2xl lg:text-3xl text-primary h-auto sm:h-20 tracking-wider mb-2">
+                <div className="text-base sm:text-lg md:text-2xl  text-primary h-auto sm:h-20 tracking-wider mb-2">
                   SỐ NĂM KINH NGHIỆM
                 </div>
-                <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-primary">15+</div>
+                <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-primary">
+                  15+
+                </div>
               </div>
               <div className="text-center">
-                <div className="text-base sm:text-lg md:text-2xl lg:text-3xl text-primary h-auto sm:h-20 tracking-wider mb-2">
+                <div className="text-base sm:text-lg md:text-2xl  text-primary h-auto sm:h-20 tracking-wider mb-2">
                   KHÁCH HÀNG
                 </div>
                 <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-primary">
@@ -72,19 +74,28 @@ const AboutUsViewModel = () => {
 
             {/* Read More Button */}
             <div className="mt-auto pt-4">
-              <Button to="/about-us" classNames={"group flex items-center justify-center sm:justify-start space-x-2 text-primary font-extrabold"}>
-                <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl tracking-wider">Read More</span>
+              <Button
+                to="/about-us"
+                classNames={
+                  "group flex items-center justify-center sm:justify-start space-x-2 text-primary font-extrabold font-primary" 
+                }
+              >
+                <span className="text-xl sm:text-2xl md:text-3xl  tracking-wider flex justify-center items-center">
+                  Read More
+                </span>
                 <svg
-                  className="w-5 h-5 sm:w-6 sm:h-6 transform group-hover:translate-x-1 transition-transform"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 36 36"
                   fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    d="M9.16663 22.0001H34.8333M34.8333 22.0001L22 9.16675M34.8333 22.0001L22 34.8334"
+                    stroke="#9F8467"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                   />
                 </svg>
               </Button>

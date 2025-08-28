@@ -21,11 +21,11 @@ const ProjectFinalViewModel = ({ type, mode }: ProjectFinalViewModelProps) => {
     return () => window.removeEventListener('resize', checkIsMobile);
   }, []);
   return (
-    <div className="bg-[four]">
+    <div className="bg-[four] font-primary">
       <div className="2xl:max-w-[1400px] xl:max-w-7xl font-primary mx-auto py-6 sm:py-8 md:py-10 px-4">
         {type == "home" ? (
           <div className="text-center py-6 md:py-10 px-4">
-            <h5 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary">
+            <h5 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary">
               DỰ ÁN ĐÃ HOÀN THIỆN
             </h5>
             <p className="font-extralight text-base sm:text-lg md:text-xl lg:text-2xl text-third mt-4">

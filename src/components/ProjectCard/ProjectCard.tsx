@@ -26,9 +26,9 @@ const ProjectCard = ({
   const isGallery = layout === 'gallery';
   
   const cardContent = (
-    <div className={`max-w-[300px] sm:max-w-xl mx-auto ${
+    <div className={`max-w-[300px] sm:max-w-md  mx-auto ${
       isGallery 
-        ? 'p-4 border-2 border-primary rounded-4xl bg-white flex flex-col overflow-hidden h-full max-h-[400px] sm:max-h-none'
+        ? 'p-4 border-2 border-primary rounded-4xl bg-white flex flex-col overflow-hidden h-full max-h-[400px] sm:max-h-none max-w-[500px]'
         : isSole
         ? 'p-4 border-2 border-primary rounded-4xl bg-white flex flex-col overflow-hidden w-full max-w-[300px] sm:max-w-md mx-auto h-full max-h-[400px] sm:max-h-none'
         : 'p-4 border-2 border-primary rounded-4xl bg-white flex flex-col overflow-hidden h-full max-h-[400px] sm:max-h-none'
@@ -61,7 +61,7 @@ const ProjectCard = ({
         onClick={onLeftClick}
         className="font-light inline-flex justify-center items-center w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-primary text-white transition-transform duration-300 ease-in-out hover:translate-x-1"
       >
-        <ChevronLeft size={40} className="sm:w-12 sm:h-12"/>
+        <ChevronLeft size={40} className="sm:w-12 sm:h-12 -translate-x-0.5"/>
       </button>
     </div>
   );
@@ -72,7 +72,7 @@ const ProjectCard = ({
         onClick={onRightClick}
         className="text-5xl sm:text-7xl font-light inline-flex justify-center items-center w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-primary text-white transition-transform duration-300 ease-in-out hover:translate-x-1"
       >
-        <ChevronRight size={40} className="sm:w-12 sm:h-12"/>
+        <ChevronRight size={40} className="sm:w-12 sm:h-12 translate-x-0.5"/>
       </button>
     </div>
   );
@@ -98,7 +98,7 @@ const ProjectCard = ({
         <>
           {/* Khi có button */}
           {(showLeftButton || showRightButton) && (
-            <div className={`flex items-stretch h-[400px] sm:h-[750px] gap-2 sm:gap-4 ${className}`}>
+            <div className={`flex items-stretch h-[400px] sm:h-[600px] gap-2 sm:gap-4 ${className}`}>
               {!isImageFirst && (showLeftButton ? leftButton : showRightButton ? rightButton : null)}
               <div className="flex-1 min-w-0">
                 {cardContent}

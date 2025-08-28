@@ -36,25 +36,14 @@ const FormContactViewModel: React.FC<FormContactViewModelProps> = ({
 
   return (
     <div
-      className={`py-8 sm:py-12 md:py-16 relative overflow-hidden ${className} ${
+      className={`py-8 sm:py-12 md:py-16 relative overflow-hidden font-primary ${className} ${
         isContactPage
-          ? "bg-four"
+          ? "bg-[#fefffa]"
           : "bg-[linear-gradient(0deg,rgba(255,255,255,0.71)_0%,#9F8467_100%)]"
       }`}
-      // style={{
-      //   // Nếu ở trang contact thì dùng màu four, còn không thì để transparent hoặc màu khác
-      //   background: isContactPage
-      //     ? "bg-four"
-      //     : "bg-[linear-gradient(0deg,rgba(255,255,255,0.71)_0%,#9F8467_100%)]",
-      // }}
+    
     >
-      {/* Desktop gradient overlay */}
-      {/* <div 
-        className="absolute inset-0 hidden lg:block"
-        style={{
-          background: "linear-gradient(0deg, rgba(255, 255, 255, 0.71) 0%, #9F8467 100%)",
-        }}
-      ></div> */}
+    
       {/* Background Pattern/Image - Only show on desktop */}
       <div
         className={`absolute inset-0 opacity-10 hidden lg:${
@@ -79,7 +68,7 @@ const FormContactViewModel: React.FC<FormContactViewModelProps> = ({
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
               LIÊN HỆ VỚI CHÚNG TÔI
             </h2>
-            <p className="text-base text-third sm:text-lg mb-6 sm:mb-8 opacity-90 leading-relaxed">
+            <p className={`text-base ${isContactPage  ? 'text-primary': 'text-second'}  sm:text-lg mb-6 sm:mb-8 opacity-90 leading-relaxed`}>
               Mộc Đức cung cấp sản phẩm và dịch vụ chất lượng cao và đáng tin
               cậy
             </p>
@@ -90,7 +79,7 @@ const FormContactViewModel: React.FC<FormContactViewModelProps> = ({
                 <span className="text-2xl sm:text-3xl md:text-4xl font-bold mr-0 sm:mr-4 mb-3 sm:mb-0">
                   Hotline
                 </span>
-                <div className="flex gap-2 sm:gap-4 items-center bg-primary rounded-full px-2 py-2">
+                <div className="flex gap-2 sm:gap-4 items-center bg-primary rounded-full px-2 py-2 pr-5">
                   <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-second border-1 flex items-center justify-center">
                     <Phone
                       size={20}
@@ -166,7 +155,7 @@ const FormContactViewModel: React.FC<FormContactViewModelProps> = ({
           <div
             className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 w-full lg:w-auto"
             style={{
-              boxShadow: "0px 12px 70px 0px #00000040",
+              boxShadow: "0px 12px 20px 0px #00000040",
             }}
           >
             {/* Mobile title - only show on mobile */}

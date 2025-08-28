@@ -104,11 +104,7 @@ const ConstructionCategories = () => {
                     <h2 className="text-4xl font-bold text-primary mb-4">
                         HẠNG MỤC THI CÔNG
                     </h2>
-                    <div className="w-24 h-1 bg-primary mx-auto mb-6"></div>
-                    <p className="text-lg text-third max-w-2xl mx-auto">
-                        Chúng tôi chuyên thiết kế và thi công các không gian sống hiện đại, 
-                        mang lại sự tiện nghi và thẩm mỹ cho ngôi nhà của bạn.
-                    </p>
+                  
                 </div>
 
                 {/* Cards Slider Container */}
@@ -174,6 +170,7 @@ const ConstructionCategories = () => {
                     </div>
 
                     {/* Dots Indicator */}
+                </div>
                     <div className="flex justify-center mt-8 space-x-2">
                         {Array.from({ length: Math.ceil(categories.length / cardsPerView) }).map((_, index) => (
                             <button
@@ -187,7 +184,6 @@ const ConstructionCategories = () => {
                             />
                         ))}
                     </div>
-                </div>
             </div>
         </div>
     )

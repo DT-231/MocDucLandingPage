@@ -13,7 +13,7 @@ const BlogsItem: React.FC<BlogsItemProps> = ({
   className = "" 
 }) => {
   return (
-    <article className={`relative border-b-1 border-third pb-10 overflow-hidden ${className}`}>
+    <article className={`relative border-b-1 font-primary border-third pb-10 overflow-hidden ${className}`}>
       <div className="flex flex-col md:flex-row">
         {/* Image Section */}
         <div className="relative w-full md:w-80 h-80 ">
@@ -38,7 +38,7 @@ const BlogsItem: React.FC<BlogsItemProps> = ({
         {/* Content Section */}
         <div className="flex-1 p-6 md:p-8 flex flex-col justify-between">
           <div>
-            <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3 md:mb-4 leading-tight hover:text-primary transition-colors duration-200 cursor-pointer uppercase tracking-wide">
+            <h3 className="text-lg md:text-xl font-bold text-primary mb-3 md:mb-4 leading-tight cursor-pointer uppercase tracking-wide">
               {blogs.title}
             </h3>
             <p className="text-gray-600 text-sm leading-relaxed line-clamp-3 md:line-clamp-4 mb-4 md:mb-6">

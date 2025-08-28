@@ -10,6 +10,7 @@ import {
   BlogsDetailShareButtons,
   RelatedBlogsList,
 } from "@/components/BlogsDetail";
+import BannerViewModel from "@/viewModels/BannerViewModel/BannerViewModel";
 
 /**
  * Trang chi tiết blog - View component
@@ -74,6 +75,11 @@ const BlogsDetail = () => {
 
       <div className="min-w-screen min-h-screen bg-white">
         {/* Header với tiêu đề lớn */}
+        <BannerViewModel
+        type="other"
+        // title="TIN TỨC"
+        // subtitle="TRANG CHỦ / TIN TỨC"
+      />
         <BlogsDetailHeader
           title="10 MẸO HÀNG ĐẦU CHO THIẾT KẾ NỘI THẤT NHÀ BẾP CỦA BẠN"
           image={blog.image}

@@ -9,7 +9,11 @@ import FormContactViewModel from "@/viewModels/FormContactViewModel/FormContactV
 const AboutView = () => {
   return (
     <div className="w-screen min-h-screen bg-white">
-      <BannerViewModel type="other" title="VỀ CHÚNG TÔI" subtitle="TRANG  / VỀ CHÚNG TÔI" />
+      <BannerViewModel
+        type="other"
+        title="VỀ CHÚNG TÔI"
+        subtitle="TRANG  / VỀ CHÚNG TÔI"
+      />
       <AboutUsHistory />
       <ProcessStepViewModel />
       <ContactViewModel
@@ -17,16 +21,20 @@ const AboutView = () => {
         href="tel:0902300703"
         textBtn={
           <>
-            <Phone size={24} className="sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" /> 
-            <span className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl">0902300703</span>
+            <Phone
+              size={24}
+              className="sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8"
+            />
+            <span className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl">
+              0902300703
+            </span>
           </>
         }
-        classNameBtn="flex justify-center items-center tracking-[2px] sm:tracking-[4px] md:tracking-[6px] gap-2 sm:gap-3 flex-wrap"
+        classNameBtn="flex justify-center items-center tracking-[2px] sm:tracking-[3px] md:tracking-[4px] lg:tracking-[6px] gap-2 sm:gap-3 font-black"
       />
 
       <QuestionViewModel />
-      <FormContactViewModel/>
-      
+      <FormContactViewModel />
     </div>
   );
 };

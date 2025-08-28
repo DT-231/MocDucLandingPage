@@ -27,7 +27,7 @@ const BlogsListViewModel: React.FC<BlogsListViewModelProps> = ({
   const hasMoreBlogs = displayedBlogs.length < sampleBlogs.length;
 
   return (
-    <div className={`w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 ${className}`}>
+    <div className={`w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 font-primary ${className}`}>
       {/* Phần header với tiêu đề */}
       <div className="text-center mb-16">
         <h2 className="text-4xl font-bold text-[#8B7355] mb-4 tracking-wide">
