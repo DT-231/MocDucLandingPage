@@ -13,12 +13,11 @@ const publicRoutes:PublicRouteType[]  = [
     { path: "/", component: HomeView },
     { path: "/about-us", component: AboutView },
     { path: "/projects", component: ProjectsView },
-    { path: "/project/:id", component: ProjectDetailView },
+    { path: "/project/:id/:slug", component: ProjectDetailView },
     { path: "/services", component: ServicesView },
     { path: "/blogs", component: BlogsView },
-    { path: "/blogs/:slug", component: BlogsDetail },
-    { path: "/contact", component: ContactView },
-
+    { path: "/blogs/:id/:slug", component: BlogsDetail },
+    { path: "/contact", component: ContactView }
 ]
 
 export {publicRoutes}

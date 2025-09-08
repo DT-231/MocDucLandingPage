@@ -28,7 +28,7 @@ Component để hiển thị từng bài tin tức riêng lẻ.
 
 **Props:**
 - `news: News` - Dữ liệu tin tức (bắt buộc)
-- `showReadMore?: boolean` - Hiển thị nút "Read More" (mặc định: true)
+- `showReadMore?: boolean` - Hiển thị nút "XEM THÊM" (mặc định: true)
 - `className?: string` - CSS class tùy chỉnh
 
 **Sử dụng:**

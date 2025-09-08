@@ -1,5 +1,8 @@
-import { useState, useEffect } from "react";
-import ProjectCard from "../../components/ProjectCard";
+
+import { ProjectZigzagLayout, ProjectGalleryLayout } from "../../components/ProjectLayouts";
+import { useProjectListViewModel } from "@/viewModels/ProjectListViewModel";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import ErrorDisplay from "@/components/ErrorDisplay";
 
 interface ProjectFinalViewModelProps {
   type: "home" | "other";
@@ -7,23 +10,43 @@ interface ProjectFinalViewModelProps {
 }
 
 const ProjectFinalViewModel = ({ type, mode }: ProjectFinalViewModelProps) => {
-  const [activeFilter, setActiveFilter] = useState("ALL");
-  const [isMobile, setIsMobile] = useState(false);
+  
+  // Sử dụng ProjectListViewModel để fetch dữ liệu
+  // Dùng limit 4 cho home page, 8 cho trang khác
+  const projectLimit = type === "home" ? 4 : 8;
+  const {
+    isLoading,
+    error,
+    projects,
+    getProjectsForDisplay,
+    refreshProjects
+  } = useProjectListViewModel(projectLimit);
 
-  useEffect(() => {
-    const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
+  // Lấy danh sách project đã format để hiển thị
+  const displayProjects = getProjectsForDisplay();
 
-    checkIsMobile();
-    window.addEventListener('resize', checkIsMobile);
+  // Hiển thị loading nếu đang tải và chưa có dữ liệu
+  if (isLoading && projects.length === 0) {
+    return (
+      <div className="bg-[four] font-primary py-20">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
-    return () => window.removeEventListener('resize', checkIsMobile);
-  }, []);
+  // Hiển thị error nếu có lỗi và chưa có dữ liệu
+  if (error && projects.length === 0) {
+    return (
+      <div className="bg-[four] font-primary py-20">
+        <ErrorDisplay error={error} onRetry={refreshProjects} />
+      </div>
+    );
+  }
+
   return (
     <div className="bg-[four] font-primary">
       <div className="2xl:max-w-[1400px] xl:max-w-7xl font-primary mx-auto py-6 sm:py-8 md:py-10 px-4">
-        {type == "home" ? (
+        {type === "home" ? (
           <div className="text-center py-6 md:py-10 px-4">
             <h5 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary">
               DỰ ÁN ĐÃ HOÀN THIỆN
@@ -34,151 +57,13 @@ const ProjectFinalViewModel = ({ type, mode }: ProjectFinalViewModelProps) => {
               <br className="hidden sm:block" /> Tự tin là đối tác đáng tin cậy trong các lĩnh vực sau.
             </p>
           </div>
-        ) : type == "other" ? (
-          <div>
-           
+        ) : 
+        
+        null}
 
-            {/* Filter Tabs */}
-            <div className="flex justify-center mb-12">
-              <div className="flex  bg-transparent">
-                {["ALL", "NHÀ PHỐ", "SANG TRỌNG", "HIỆN ĐẠI", "CỔ ĐIỂN"].map((filter) => (
-                  <button
-                    key={filter}
-                    onClick={() => setActiveFilter(filter)}
-                    className={`px-2 text-nowrap  py-2 text-sm lg:text-lg lg:px-5 transition-all duration-300 relative ${
-                      activeFilter === filter
-                        ? "text-primary"
-                        : "text-gray-600 hover:text-primary"
-                    }`}
-                  >
-                    {filter}
-                    {activeFilter === filter && (
-                      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"></div>
-                    )}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Projects Gallery */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-4 mx-auto justify-center justify-items-center">
-              <ProjectCard
-                imageUrl="https://html.geekcodelab.com/decore/Multiple_Pages/assets/images/blog-single-2.jpg"
-                title="THIẾT KẾ SANG TRỌNG"
-                layout="gallery"
-                showRightButton={false}
-              />
-
-              <ProjectCard
-                imageUrl="https://html.geekcodelab.com/decore/Multiple_Pages/assets/images/blog-single-2.jpg"
-                title="THIẾT KẾ ẤM CÚNG"
-                layout="gallery"
-                showRightButton={false}
-              />
-
-              <ProjectCard
-                imageUrl="https://html.geekcodelab.com/decore/Multiple_Pages/assets/images/blog-single-2.jpg"
-                title="THIẾT KẾ TỐI GIẢN"
-                layout="gallery"
-                showRightButton={false}
-              />
-
-              <ProjectCard
-                imageUrl="https://html.geekcodelab.com/decore/Multiple_Pages/assets/images/blog-single-2.jpg"
-                title="THIẾT KẾ TRANG TRÍ"
-                layout="gallery"
-                showRightButton={false}
-              />
-
-              <ProjectCard
-                imageUrl="https://html.geekcodelab.com/decore/Multiple_Pages/assets/images/blog-single-2.jpg"
-                title="THIẾT KẾ HIỆN ĐẠI"
-                layout="gallery"
-                showRightButton={false}
-              />
-
-              <ProjectCard
-                imageUrl="https://html.geekcodelab.com/decore/Multiple_Pages/assets/images/blog-single-2.jpg"
-                title="THIẾT KẾ CỔ ĐIỂN"
-                layout="gallery"
-                showRightButton={false}
-              />
-            </div>
-          </div>
-        ) : (
-          <div></div>
-        )}
-
-        {mode === "zigzag" && (
-          <div className="grid justify-self-center grid-cols-1 md:grid-cols-2 gap-6 md:gap-0 px-4">
-            <ProjectCard
-              imageUrl="https://html.geekcodelab.com/decore/Multiple_Pages/assets/images/blog-single-2.jpg"
-              title="THIẾT KẾ SANG TRỌNG"
-              layout="image-caption"
-              className="mb-0 md:mb-80 max-w-[300px] md:max-w-none mx-auto"
-              showRightButton={!isMobile}
-              onRightClick={() => console.log("Right button clicked")}
-            />
-
-            <ProjectCard
-              imageUrl="https://html.geekcodelab.com/decore/Multiple_Pages/assets/images/blog-single-2.jpg"
-              title="THIẾT KẾ ẤM CÚNG"
-              layout="caption-image"
-              showLeftButton={!isMobile}
-              className="mt-0 md:mt-100 max-w-[300px] md:max-w-none mx-auto"
-              onLeftClick={() => console.log("Left button clicked")}
-            />
-
-            <ProjectCard
-              imageUrl="https://html.geekcodelab.com/decore/Multiple_Pages/assets/images/blog-single-2.jpg"
-              title="THIẾT KẾ TỐI GIẢN"
-              layout="image-caption"
-              showRightButton={!isMobile}
-              className="mb-0 md:mb-80 max-w-[300px] md:max-w-none mx-auto"
-              onRightClick={() => console.log("Right button clicked")}
-            />
-          </div>
-        )}
-
-        {mode === "gallery" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-4 mx-auto justify-center justify-items-center">
-            <ProjectCard
-              imageUrl="https://html.geekcodelab.com/decore/Multiple_Pages/assets/images/blog-single-2.jpg"
-              title="THIẾT KẾ SANG TRỌNG"
-              showRightButton={false}
-            />
-
-            <ProjectCard
-              imageUrl="https://html.geekcodelab.com/decore/Multiple_Pages/assets/images/blog-single-2.jpg"
-              title="THIẾT KẾ ẤM CÚNG"
-              showRightButton={false}
-            />
-
-            <ProjectCard
-              imageUrl="https://html.geekcodelab.com/decore/Multiple_Pages/assets/images/blog-single-2.jpg"
-              title="THIẾT KẾ TỐI GIẢN"
-              showRightButton={false}
-            />
-
-            <ProjectCard
-              imageUrl="https://html.geekcodelab.com/decore/Multiple_Pages/assets/images/blog-single-2.jpg"
-              title="THIẾT KẾ TRANG TRÍ"
-              showRightButton={false}
-            />
-
-            <ProjectCard
-              imageUrl="https://html.geekcodelab.com/decore/Multiple_Pages/assets/images/blog-single-2.jpg"
-              title="THIẾT KẾ TỐI GIẢN"
-              showRightButton={false}
-            />
-
-            <ProjectCard
-              imageUrl="https://html.geekcodelab.com/decore/Multiple_Pages/assets/images/blog-single-2.jpg"
-              title="THIẾT KẾ TRANG TRÍ"
-              showRightButton={false}
-            />
-          </div>
-        )}
+        {/* Render layout dựa theo mode và truyền dữ liệu project */}
+        {mode === "zigzag" && <ProjectZigzagLayout projects={displayProjects} />}
+        {mode === "gallery" && <ProjectGalleryLayout projects={displayProjects} />}
       </div>
     </div>
   );

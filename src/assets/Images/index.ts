@@ -4,6 +4,13 @@ import bannerAboutUs from "./bannerAboutUs.png"
 import iconKep from "./kep.png"
 import aboutUsDown from "./aboutUs1.jpg"
 import aboutUsUp from "./aboutUs2.jpg"
+// Partner brands logos
+import takingLogo from "./taking.png"
+import accPanelLogo from "./accPanel.png"
+import fulcoLogo from "./Fulco.png"
+import aldLogo from "./ALD.png"
+import anCuongLogo from "./an_cuong.png"
+import mocPhatLogo from "./MocPhat.png"
 const Images = {
     // logo
     logoImageNoBackground : logo,
@@ -18,6 +25,14 @@ const Images = {
 
     // icon
     iconKepImage:iconKep,
+
+    // Partner brands logos
+    takingLogoImage: takingLogo,
+    accPanelLogoImage: accPanelLogo,
+    fulcoLogoImage: fulcoLogo,
+    aldLogoImage: aldLogo,
+    anCuongLogoImage: anCuongLogo,
+    mocPhatLogoImage: mocPhatLogo,
 
     // image about us in about us page
     aboutUsUpImage : aboutUsUp,

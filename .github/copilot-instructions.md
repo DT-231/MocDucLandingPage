@@ -26,3 +26,4 @@
 3. **Luôn dùng tiếng Việt khi trả lời/gợi ý trong Copilot Chat**.  
    - Code gợi ý có comment tiếng Việt.  
    - Giải thích bằng tiếng Việt.  
+   - Luôn giải thích đầu vào và đầu ra của hàm 

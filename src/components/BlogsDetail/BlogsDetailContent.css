@@ -1,0 +1,125 @@
+/* CSS cho nội dung blog detail */
+.blog-content {
+  color: #374151;
+}
+
+.blog-content h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #8B7355;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  line-height: 1.25;
+}
+
+.blog-content h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #8B7355;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.25;
+}
+
+.blog-content h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #8B7355;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.25;
+}
+
+.blog-content p {
+  font-size: 1rem;
+  color: #374151;
+  line-height: 1.75;
+  margin-bottom: 1rem;
+}
+
+.blog-content img {
+  max-width: 100%;
+  height: auto;
+  margin: 1.5rem auto;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  display: block;
+}
+
+.blog-content ul,
+.blog-content ol {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.blog-content li {
+  margin-bottom: 0.5rem;
+  color: #374151;
+  line-height: 1.75;
+}
+
+.blog-content strong {
+  font-weight: 600;
+  color: #111827;
+}
+
+.blog-content blockquote {
+  border-left: 4px solid #8B7355;
+  padding-left: 1rem;
+  font-style: italic;
+  color: #4B5563;
+  margin: 1rem 0;
+}
+
+.blog-content code {
+  background-color: #F3F4F6;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+.blog-content pre {
+  background-color: #F3F4F6;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.blog-content table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #D1D5DB;
+  margin: 1rem 0;
+}
+
+.blog-content th,
+.blog-content td {
+  border: 1px solid #D1D5DB;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.blog-content th {
+  background-color: #F9FAFB;
+  font-weight: 600;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .blog-content img {
+    margin: 1rem auto;
+  }
+  
+  .blog-content h2 {
+    font-size: 1.25rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .blog-content h3 {
+    font-size: 1.125rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+}

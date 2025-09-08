@@ -1,5 +1,24 @@
 @import "tailwindcss";
 
+/* Roboto variable – normal */
+@font-face {
+  font-family: "Roboto";
+  src: url("./assets/fonts/Roboto/Roboto-VariableFont_wdth\,wght.ttf") 
+  format("truetype");
+  font-weight: 100 900;    /* bao trùm mọi weight */
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Roboto variable – italic */
+@font-face {
+  font-family: "Roboto";
+  src: url("/assets/fonts/Roboto/Roboto-Italic-VariableFont_wdth,wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
 @theme {
   --font-primary: "Roboto", sans-serif;
 
@@ -64,4 +83,88 @@
 
 html, body {
   overflow-x: hidden;
+}
+
+/* WordPress content styling */
+.wordpress-content {
+  color: #000000;
+  line-height: 1.75;
+  font-weight: 300;
+  font-size: 16px;
+}
+
+.wordpress-content h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  margin-top: 1.5rem;
+  color: #9f8467;
+}
+
+.wordpress-content h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  margin-top: 1.25rem;
+  color: #9f8467;
+}
+
+.wordpress-content h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+  color: #9f8467;
+}
+
+.wordpress-content p {
+  margin-bottom: 1rem;
+  text-align: justify;
+  color: #000000;
+}
+
+.wordpress-content ul, .wordpress-content ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+.wordpress-content li {
+  margin-bottom: 0.5rem;
+  color: #000000;
+}
+
+.wordpress-content img {
+  max-width: 100%;
+  height: auto;
+  margin: 1rem 0;
+}
+
+.wordpress-content strong {
+  font-weight: 600;
+  color: #9f8467;
+}
+
+.wordpress-content a {
+  color: #9f8467;
+  text-decoration: underline;
+}
+
+.wordpress-content a:hover {
+  color: #7c6551;
+}
+
+/* Animation cho notification */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
 }

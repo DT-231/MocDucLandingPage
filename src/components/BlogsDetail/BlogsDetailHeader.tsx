@@ -11,7 +11,7 @@ const BlogsDetailHeader: React.FC<BlogsDetailHeaderProps> = ({
   altText 
 }) => {
   return (
-    <section className="pt-40 flex justify-center">
+    <section className="md:pt-40 flex justify-center md:flex-row gap-10 flex-col p-4">
       <div className="text-left">
         <h1 className="text-4xl max-w-3xl md:text-5xl lg:text-6xl font-extrabold text-primary leading-tight">
           {title}

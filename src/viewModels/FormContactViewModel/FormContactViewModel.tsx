@@ -1,37 +1,60 @@
 import Images from "@assets/Images";
-import { MapPin, Phone, SendHorizontal } from "lucide-react";
+import { Mail, MapPin, Phone, SendHorizontal } from "lucide-react";
 import { useState } from "react";
 import type {
   FormContactViewModelProps,
-  FormContactData,
 } from "@/models/FormContactViewModelType/FormContactViewModelType";
+import { useContactForm } from "@/viewModels/hooks/useContactForm";
+import { FormInput, FormTextArea } from "@/components/FormInput/FormInput";
+import FormNotification from "@/components/FormNotification/FormNotification";
 
 const FormContactViewModel: React.FC<FormContactViewModelProps> = ({
   isContactPage = false,
   className = "",
 }) => {
-  const [formData, setFormData] = useState<FormContactData>({
-    name: "",
-    phone: "",
-    email: "",
-    subject: "",
-    content: "",
+  // Sử dụng custom hook để quản lý form logic
+  const { formState, handleInputChange, handleFieldBlur, handleSubmit } = useContactForm();
+  
+  // State để quản lý thông báo
+  const [notification, setNotification] = useState<{
+    type: "success" | "error";
+    message: string;
+    isVisible: boolean;
+  }>({
+    type: "success",
+    message: "",
+    isVisible: false,
   });
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission logic here
-    console.log("Form submitted:", formData);
+  // Xử lý submit form với callback
+  const onSubmitHandler = (e: React.FormEvent) => {
+    handleSubmit(
+      e,
+      // Callback khi thành công
+      (message: string) => {
+        setNotification({
+          type: "success",
+          message,
+          isVisible: true,
+        });
+        // Tự động ẩn thông báo sau 5 giây
+        setTimeout(() => {
+          setNotification(prev => ({ ...prev, isVisible: false }));
+        }, 5000);
+      },
+      // Callback khi có lỗi
+      (message: string) => {
+        setNotification({
+          type: "error",
+          message,
+          isVisible: true,
+        });
+        // Tự động ẩn thông báo sau 5 giây
+        setTimeout(() => {
+          setNotification(prev => ({ ...prev, isVisible: false }));
+        }, 5000);
+      }
+    );
   };
 
   return (
@@ -128,19 +151,7 @@ const FormContactViewModel: React.FC<FormContactViewModelProps> = ({
               {/* Email */}
               <div className=" items-center hidden lg:flex">
                 <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-second rounded-full flex items-center justify-center mr-3 sm:mr-4 text-primary">
-                  <svg
-                    className="w-5 h-5 sm:w-6 sm:h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    />
-                  </svg>
+                  <Mail />
                 </div>
                 <div>
                   <p className="text-base sm:text-lg md:text-xl font-medium break-all">
@@ -168,79 +179,98 @@ const FormContactViewModel: React.FC<FormContactViewModelProps> = ({
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+            <form onSubmit={onSubmitHandler} className="space-y-4 sm:space-y-6">
+              {/* Hiển thị thông báo */}
+              <FormNotification
+                type={notification.type}
+                message={notification.message}
+                isVisible={notification.isVisible}
+                onClose={() => setNotification(prev => ({ ...prev, isVisible: false }))}
+              />
+
               {/* Name and Phone Row */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Họ và Tên"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border bg-[#f6f6f6] border-gray-200 rounded-2xl sm:rounded-4xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all duration-300 placeholder-gray-500 text-sm sm:text-base"
-                    required
-                  />
-                </div>
-                <div>
-                  <input
-                    type="tel"
-                    name="phone"
-                    placeholder="Điện Thoại"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border bg-[#f6f6f6] border-gray-200 rounded-2xl sm:rounded-4xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all duration-300 placeholder-gray-500 text-sm sm:text-base"
-                    required
-                  />
-                </div>
+                <FormInput
+                  type="text"
+                  name="name"
+                  placeholder="Họ và Tên"
+                  value={formState.data.name}
+                  error={formState.errors.name}
+                  onChange={handleInputChange}
+                  onBlur={handleFieldBlur}
+                  required
+                />
+                <FormInput
+                  type="tel"
+                  name="phone"
+                  placeholder="Điện Thoại"
+                  value={formState.data.phone}
+                  error={formState.errors.phone}
+                  onChange={handleInputChange}
+                  onBlur={handleFieldBlur}
+                  required
+                />
               </div>
 
               {/* Email */}
-              <div>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 border bg-[#f6f6f6] border-gray-200 rounded-2xl sm:rounded-4xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all duration-300 placeholder-gray-500 text-sm sm:text-base"
-                  required
-                />
-              </div>
+              <FormInput
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={formState.data.email}
+                error={formState.errors.email}
+                onChange={handleInputChange}
+                onBlur={handleFieldBlur}
+                required
+              />
 
               {/* Subject */}
-              <div>
-                <input
-                  type="text"
-                  name="subject"
-                  placeholder="Tiêu Đề"
-                  value={formData.subject}
-                  onChange={handleInputChange}
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 border bg-[#f6f6f6] border-gray-200 rounded-2xl sm:rounded-4xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all duration-300 placeholder-gray-500 text-sm sm:text-base"
-                  required
-                />
-              </div>
+              <FormInput
+                type="text"
+                name="subject"
+                placeholder="Tiêu Đề"
+                value={formState.data.subject}
+                error={formState.errors.subject}
+                onChange={handleInputChange}
+                onBlur={handleFieldBlur}
+                required
+              />
 
               {/* Content */}
-              <div>
-                <textarea
-                  name="content"
-                  placeholder="Nội Dung"
-                  value={formData.content}
-                  onChange={handleInputChange}
-                  rows={4}
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 border bg-[#f6f6f6] border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all duration-300 placeholder-gray-500 resize-vertical text-sm sm:text-base"
-                  required
-                />
-              </div>
+              <FormTextArea
+                name="content"
+                placeholder="Nội Dung"
+                value={formState.data.content}
+                error={formState.errors.content}
+                onChange={handleInputChange}
+                onBlur={handleFieldBlur}
+                rows={4}
+                required
+              />
 
               {/* Submit Button */}
               <div className="flex justify-center items-center pt-2">
                 <button
                   type="submit"
-                  className="inline-flex border-1 border-primary text-primary items-center gap-2 px-6 sm:px-8 py-2 sm:py-3 text-sm sm:text-base font-bold rounded-lg transition-all duration-300 hover:shadow-lg group hover:bg-primary hover:text-white"
+                  disabled={formState.isLoading || formState.isSubmitted}
+                  className={`
+                    inline-flex border-1 border-primary items-center gap-2 
+                    px-6 sm:px-8 py-2 sm:py-3 text-sm sm:text-base font-bold 
+                    rounded-lg transition-all duration-300 
+                    ${formState.isLoading || formState.isSubmitted 
+                      ? 'opacity-50 cursor-not-allowed bg-gray-100 text-gray-500' 
+                      : 'text-primary hover:shadow-lg hover:bg-primary hover:text-white'
+                    }
+                  `}
                 >
-                  <span>Gửi</span>
+                  <span>
+                    {formState.isLoading 
+                      ? "Đang gửi..." 
+                      : formState.isSubmitted 
+                        ? "Đã gửi!" 
+                        : "Gửi"
+                    }
+                  </span>
                   <SendHorizontal size={18} className="sm:w-5 sm:h-5" />
                 </button>
               </div>

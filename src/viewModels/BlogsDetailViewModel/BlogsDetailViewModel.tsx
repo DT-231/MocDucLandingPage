@@ -1,64 +1,142 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { sampleBlogs } from "@/data/newsData";
-import type { CategoryItem, ArchiveItem } from "@/models/BlogsDetailType/BlogsDetailType";
+import { BlogService } from "@/Services/BlogService";
+import type { BlogItem } from "@/models/WordPressBlogType/WordPressBlogType";
+import type {
+  CategoryItem,
+  ArchiveItem,
+} from "@/models/BlogsDetailType/BlogsDetailType";
 
 /**
  * ViewModel quản lý logic cho trang BlogsDetail
  * Theo kiến trúc MVVM - ViewModel không chứa UI
  */
-export const useBlogsDetailViewModel = (slug?: string) => {
+export const useBlogsDetailViewModel = (identifier?: string) => {
   const navigate = useNavigate();
   const [showBackToTop, setShowBackToTop] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [blog, setBlog] = useState<BlogItem | null>(null);
+  const [relatedBlogs, setRelatedBlogs] = useState<BlogItem[]>([]);
+  const [recentBlogs, setRecentBlogs] = useState<BlogItem[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
-  // Tìm bài blog theo slug
-  const blog = sampleBlogs.find((b) => b.slug === slug);
+  // Fetch chi tiết blog từ API - có thể dùng slug hoặc id
+  const fetchBlogDetail = async (blogIdentifier: string) => {
+    try {
+      setIsLoading(true);
+      setError(null);
 
-  // Lấy bài blog liên quan cùng category
-  const relatedBlogs = sampleBlogs
-    .filter((b) => b.id !== blog?.id && b.category === blog?.category)
-    .slice(0, 3);
-
-  // Lấy các bài blog gần đây khác
-  const recentBlogs = sampleBlogs.filter((b) => b.id !== blog?.id).slice(0, 3);
-
-  // Danh sách các thể loại
-  const categories: CategoryItem[] = [
-    { name: "ALL", count: 10 },
-    { name: "marketing", count: 5 },
-    { name: "interior", count: 10 },
-    { name: "Uncategorized", count: 3 },
-  ];
-
-  // Danh sách tags
-  const tags = [
-    "Design",
-    "Interior design",
-    "Architecture",
-    "Interior",
-    "Commercial",
-    "Home interiors",
-  ];
-
-  // Danh sách archive theo tháng
-  const archives: ArchiveItem[] = [
-    { name: "July 2019", count: 25 },
-    { name: "August 2011", count: 51 },
-    { name: "September 2012", count: 18 },
-    { name: "October 2013", count: 6 },
-  ];
-
-  // Xử lý loading
-  useEffect(() => {
-    const timer = setTimeout(() => {
+      let blogData: BlogItem;
+      
+      // Kiểm tra nếu identifier là số (id) hay string (slug)
+      if (/^\d+$/.test(blogIdentifier)) {
+        // Nếu là số, sử dụng getBlogById
+        blogData = await BlogService.getBlogById(parseInt(blogIdentifier));
+      } else {
+        // Nếu là string, sử dụng getBlogBySlug
+        blogData = await BlogService.getBlogBySlug(blogIdentifier);
+      }
+      console.log(blogData);
+      
+      setBlog(blogData);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Không thể tải bài viết';
+      setError(errorMessage);
+      console.error('Lỗi khi tải chi tiết blog:', err);
+    } finally {
       setIsLoading(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
+    }
+  };
 
-  // Xử lý scroll và back to top
+  // Fetch blogs liên quan (5 bài mới nhất, loại trừ bài hiện tại)
+  const fetchRelatedBlogs = async (currentBlogId?: number) => {
+    try {
+      const response = await BlogService.getAllBlogs({
+        per_page: 4,
+        orderby: 'date',
+        order: 'desc'
+      });
+
+      // Lọc bỏ bài viết hiện tại và chỉ lấy 3 bài
+      const filtered = response.data
+        .filter(b => b.id !== currentBlogId)
+        .slice(0, 3);
+
+      setRelatedBlogs(filtered);
+    } catch (err) {
+      console.error('Lỗi khi tải bài viết liên quan:', err);
+      setRelatedBlogs([]);
+    }
+  };
+
+  // Fetch bài viết gần đây cho sidebar
+  const fetchRecentBlogs = async (currentBlogId?: number) => {
+    try {
+      const response = await BlogService.getAllBlogs({
+        per_page: 4,
+        orderby: 'date',
+        order: 'desc'
+      });
+
+      // Lọc bỏ bài viết hiện tại và chỉ lấy 3 bài
+      const filtered = response.data
+        .filter(b => b.id !== currentBlogId)
+        .slice(0, 3);
+
+      setRecentBlogs(filtered);
+    } catch (err) {
+      console.error('Lỗi khi tải bài viết gần đây:', err);
+      setRecentBlogs([]);
+    }
+  };
+
+  // Effect để tải dữ liệu khi identifier thay đổi
+  useEffect(() => {
+    if (identifier) {
+      fetchBlogDetail(identifier);
+    }
+  }, [identifier]);
+
+  // Effect để tải dữ liệu liên quan khi có blog chính
+  useEffect(() => {
+    if (blog) {
+      fetchRelatedBlogs(blog.id);
+      fetchRecentBlogs(blog.id);
+    }
+  }, [blog]);
+
+  // Danh sách các thể loại (dummy data - có thể mở rộng để lấy từ API)
+  const categories: CategoryItem[] = [
+    { name: "Thiết kế nội thất", count: 15 },
+    { name: "Phong cách hiện đại", count: 10 },
+    { name: "Trang trí nhà", count: 8 },
+    { name: "Mẹo hay", count: 12 },
+  ];
+
+  // Danh sách tags (dummy data - có thể mở rộng để lấy từ API)
+  const tags = [
+    "thiết kế",
+    "nội thất",
+    "hiện đại",
+    "phòng khách",
+    "nhà bếp",
+    "phòng ngủ",
+    "trang trí",
+    "màu sắc",
+    "ánh sáng",
+    "không gian"
+  ];
+
+  // Danh sách archive theo tháng (dummy data - có thể mở rộng để lấy từ API)
+  const archives: ArchiveItem[] = [
+    { name: "Tháng 9 2025", count: 5 },
+    { name: "Tháng 8 2025", count: 8 },
+    { name: "Tháng 7 2025", count: 6 },
+    { name: "Tháng 6 2025", count: 10 },
+  ];
+
+  // Effect để xử lý scroll và back to top
   useEffect(() => {
     const handleScroll = () => {
       setShowBackToTop(window.scrollY > 300);
@@ -80,36 +158,55 @@ export const useBlogsDetailViewModel = (slug?: string) => {
 
   // Xử lý chia sẻ Facebook
   const handleShareFacebook = () => {
-    const url = encodeURIComponent(window.location.href);
-    console.log(url);
-    
-    window.open(
-      `https://www.facebook.com/sharer/sharer.php?u=${url}`,
-      "_blank"
-    );
+    if (blog) {
+      const url = encodeURIComponent(window.location.href);
+      const title = encodeURIComponent(blog.title);
+      window.open(
+        `https://www.facebook.com/sharer/sharer.php?u=${url}&t=${title}`,
+        "_blank",
+        "width=600,height=400"
+      );
+    }
   };
 
   // Xử lý chia sẻ Twitter
   const handleShareTwitter = () => {
-    const url = encodeURIComponent(window.location.href);
-    const text = encodeURIComponent(blog?.title || "");
-    window.open(
-      `https://twitter.com/intent/tweet?url=${url}&text=${text}`,
-      "_blank"
-    );
+    if (blog) {
+      const url = encodeURIComponent(window.location.href);
+      const text = encodeURIComponent(blog.title);
+      window.open(
+        `https://twitter.com/intent/tweet?url=${url}&text=${text}`,
+        "_blank",
+        "width=600,height=400"
+      );
+    }
   };
 
   // Xử lý copy link
-  const handleCopyToClipboard = () => {
-    navigator.clipboard.writeText(window.location.href);
-    // Có thể thêm toast notification ở đây
+  const handleCopyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      // Có thể thêm toast notification ở đây
+      alert('Đã copy link bài viết!');
+    } catch (err) {
+      console.error('Không thể copy link:', err);
+      alert('Không thể copy link. Vui lòng thử lại.');
+    }
   };
 
   // Xử lý tìm kiếm
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Logic tìm kiếm có thể được implement ở đây
-    console.log("Tìm kiếm:", searchTerm);
+  const handleSearch = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    
+    if (searchTerm.trim()) {
+      try {
+        // Chuyển hướng đến trang kết quả tìm kiếm
+        navigate(`/blogs?search=${encodeURIComponent(searchTerm.trim())}`);
+      } catch (err) {
+        console.error('Lỗi khi tìm kiếm:', err);
+        alert('Có lỗi xảy ra khi tìm kiếm. Vui lòng thử lại.');
+      }
+    }
   };
 
   // Xử lý thay đổi search term
@@ -128,7 +225,8 @@ export const useBlogsDetailViewModel = (slug?: string) => {
     showBackToTop,
     isLoading,
     searchTerm,
-    
+    error,
+
     // Handlers
     handleNavigate,
     handleShareFacebook,
@@ -137,5 +235,8 @@ export const useBlogsDetailViewModel = (slug?: string) => {
     handleSearch,
     handleSearchTermChange,
     scrollToTop,
+
+    // Actions
+    refetch: () => identifier && fetchBlogDetail(identifier),
   };
 };

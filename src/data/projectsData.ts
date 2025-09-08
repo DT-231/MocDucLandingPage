@@ -3,6 +3,7 @@ import type { Project } from '@/models/ProjectType/ProjectType';
 export const sampleProjects: Project[] = [
   {
     id: '1',
+    slug: 'du-an-villa-sang-trong',
     title: 'Dự án Villa Sang Trọng',
     description: 'Thiết kế và thi công villa 3 tầng hiện đại với không gian mở, hướng tới sự tiện nghi và thẩm mỹ cao. Diện tích 500m2 với đầy đủ tiện ích.',
     image: '/src/assets/Images/bannerHome.jpg',
@@ -12,7 +13,8 @@ export const sampleProjects: Project[] = [
   },
   {
     id: '2',
-    title: 'Chung Cư Cao Cấp Green Tower',
+    slug: 'chung-cu-cao-cap-green-tower',
+    title: 'Chung Cú Cao Cấp Green Tower',
     description: 'Dự án chung cư 32 tầng với 500 căn hộ cao cấp, tích hợp công viên xanh và nhiều tiện ích hiện đại cho cư dân.',
     image: '/src/assets/Images/bannerAboutUs.png',
     category: 'Chung cư',
@@ -21,6 +23,7 @@ export const sampleProjects: Project[] = [
   },
   {
     id: '3',
+    slug: 'khu-biet-thu-ven-song',
     title: 'Khu Biệt Thự Ven Sông',
     description: 'Khu biệt thự cao cấp với 50 căn nhà phố và biệt thự đơn lập, view sông tuyệt đẹp, thiết kế hiện đại kết hợp kiến trúc truyền thống.',
     image: '/src/assets/Images/bannerHome.jpg',
@@ -30,6 +33,7 @@ export const sampleProjects: Project[] = [
   },
   {
     id: '4',
+    slug: 'nha-o-xa-hoi-an-cu',
     title: 'Nhà Ở Xã Hội An Cư',
     description: 'Dự án nhà ở xã hội với 200 căn hộ giá tốt, đảm bảo chất lượng sinh hoạt cho các gia đình có thu nhập trung bình.',
     image: '/src/assets/Images/bannerAboutUs.png',
@@ -39,6 +43,7 @@ export const sampleProjects: Project[] = [
   },
   {
     id: '5',
+    slug: 'trung-tam-thuong-mai-diamond',
     title: 'Trung Tâm Thương Mại Diamond',
     description: 'Trung tâm thương mại 8 tầng với diện tích 10,000m2, tích hợp shop, nhà hàng, rạp chiếu phim và khu vui chơi giải trí.',
     image: '/src/assets/Images/bannerHome.jpg',
@@ -48,6 +53,7 @@ export const sampleProjects: Project[] = [
   },
   {
     id: '6',
+    slug: 'khu-do-thi-moi-sunshine',
     title: 'Khu Đô Thị Mới Sunshine',
     description: 'Khu đô thị quy mô lớn với 1000 căn hộ, villa và townhouse, đầy đủ hạ tầng xanh và tiện ích công cộng hiện đại.',
     image: '/src/assets/Images/bannerAboutUs.png',
@@ -57,6 +63,7 @@ export const sampleProjects: Project[] = [
   },
   {
     id: '7',
+    slug: 'toa-nha-van-phong-sky-tower',
     title: 'Tòa Nhà Văn Phòng Sky Tower',
     description: 'Tòa nhà văn phòng 25 tầng tại trung tâm thành phố, thiết kế thông minh và tiết kiệm năng lượng với công nghệ hiện đại.',
     image: '/src/assets/Images/bannerHome.jpg',
@@ -66,6 +73,7 @@ export const sampleProjects: Project[] = [
   },
   {
     id: '8',
+    slug: 'resort-bien-xanh',
     title: 'Resort Biển Xanh',
     description: 'Khu nghỉ dưỡng 5 sao bên bờ biển với 100 phòng, spa, hồ bơi vô cực và nhiều hoạt động giải trí đẳng cấp quốc tế.',
     image: '/src/assets/Images/bannerAboutUs.png',

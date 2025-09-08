@@ -1,0 +1,7 @@
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="400" height="300" fill="#F3F4F6"/>
+<rect x="150" y="110" width="100" height="80" stroke="#9CA3AF" stroke-width="2" stroke-dasharray="4 4" fill="transparent"/>
+<circle cx="175" cy="135" r="8" stroke="#9CA3AF" stroke-width="2" fill="transparent"/>
+<path d="M160 170 L175 155 L190 170 L240 130 L240 180 L160 180 Z" stroke="#9CA3AF" stroke-width="2" fill="transparent"/>
+<text x="200" y="210" text-anchor="middle" font-family="system-ui" font-size="14" fill="#6B7280">Không có hình ảnh</text>
+</svg>

@@ -9,10 +9,14 @@ import { Phone } from "lucide-react";
 const ServicesView = () => {
   return (
     <div className="w-screen">
-      <BannerViewModel type="other" title="DỊCH VỤ" subtitle="TRANG CHỦ / DỊCH VỤ" />
+      <BannerViewModel
+        type="other"
+        title="DỊCH VỤ"
+        subtitle="TRANG CHỦ / DỊCH VỤ"
+      />
       <ServicesViewModel />
       <ProcessStepViewModel />
-       <ContactViewModel
+      <ContactViewModel
         title={"HÃY TRỞ THÀNH MỘT ĐỐI TÁC CỦA MỘC ĐỨC NGAY HÔM NAY"}
         href="tel:0902300703"
         textBtn={
@@ -22,8 +26,8 @@ const ServicesView = () => {
         }
         classNameBtn="flex justify-center items-center tracking-[6px] gap-3"
       />
-       <QuestionViewModel />
-      <FormContactViewModel/>
+      <QuestionViewModel />
+      <FormContactViewModel />
     </div>
   );
 };

@@ -1,11 +1,16 @@
+import { useSearchParams } from 'react-router-dom';
 import BannerViewModel from "@/viewModels/BannerViewModel/BannerViewModel";
 import BlogsListViewModel from "@/viewModels/BlogsListViewModel/BlogsListViewModel";
+import BlogsWithSearchView from "@/components/BlogsWithSearch/BlogsWithSearchView";
 import ContactViewModel from "@/viewModels/ContactViewModel/ContactViewModel";
 import FormContactViewModel from "@/viewModels/FormContactViewModel/FormContactViewModel";
 import QuestionViewModel from "@/viewModels/QuestionViewModel/QuestionViewModel";
 import { Phone } from "lucide-react";
 
 const BlogsView = () => {
+  const [searchParams] = useSearchParams();
+  const hasSearch = searchParams.has('search') || searchParams.has('page');
+
   return (
     <div className="min-w-screen">
       <BannerViewModel
@@ -13,7 +18,14 @@ const BlogsView = () => {
         title="TIN TỨC"
         subtitle="TRANG CHỦ / TIN TỨC"
       />
-      <BlogsListViewModel />
+      
+      {/* Hiển thị component khác nhau tùy theo có search/pagination hay không */}
+      {hasSearch ? (
+        <BlogsWithSearchView />
+      ) : (
+        <BlogsListViewModel />
+      )}
+      
       <ContactViewModel
         title={"HÃY TRỞ THÀNH MỘT ĐỐI TÁC CỦA MỘC ĐỨC NGAY HÔM NAY"}
         href="tel:0902300703"

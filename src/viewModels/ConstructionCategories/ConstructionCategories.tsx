@@ -112,7 +112,9 @@ const ConstructionCategories = () => {
                     {/* Navigation Buttons */}
                     <button 
                         onClick={prevSlide}
-                        className="absolute -left-5 top-1/2 -translate-y-1/2 z-10 bg-primary hover:bg-primary/80 rounded-full p-3 text-white transition-all duration-300 group shadow-lg"
+                        className="absolute -left-5 top-1/2 -translate-y-1/2 z-10 bg-primary hover:bg-primary/80 rounded-full p-3 text-white transition-all duration-300 group shadow-lg
+                        md:block hidden
+                        "
                         style={{ left: '-20px' }}
                     >
                         <svg className="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -122,7 +124,8 @@ const ConstructionCategories = () => {
                     
                     <button 
                         onClick={nextSlide}
-                        className="absolute -right-5 top-1/2 -translate-y-1/2 z-10 bg-primary hover:bg-primary/80 rounded-full p-3 text-white transition-all duration-300 group shadow-lg"
+                        className="absolute -right-5 top-1/2 -translate-y-1/2 z-10 bg-primary hover:bg-primary/80 rounded-full p-3 text-white transition-all duration-300 group shadow-lg
+                        md:block hidden"
                         style={{ right: '-20px' }}
                     >
                         <svg className="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -131,7 +134,7 @@ const ConstructionCategories = () => {
                     </button>
 
                     {/* Cards Slider */}
-                    <div className="overflow-hidden mx-8 md:mx-12">
+                    <div className="overflow-hidden  md:mx-12">
                         <div 
                             className="flex transition-transform duration-700 ease-in-out gap-6"
                             style={{ transform: `translateX(-${currentSlide * (361 + 24)}px)` }}
@@ -141,7 +144,7 @@ const ConstructionCategories = () => {
                                     key={category.id} 
                                     className="flex-shrink-0"
                                 >
-                                    <div className="relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group h-full" style={{ width: '361px', height: '528px' }}>
+                                    <div className="relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group w-2xs aspect-[3/4] md:w-90"  >
                                         {/* Card Image with Overlay and Title */}
                                         <div className="w-full h-full relative overflow-hidden">
                                             <img 

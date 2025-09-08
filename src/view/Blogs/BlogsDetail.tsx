@@ -8,21 +8,20 @@ import {
   BlogsDetailContent,
   BlogsDetailSidebar,
   BlogsDetailShareButtons,
-  RelatedBlogsList,
 } from "@/components/BlogsDetail";
 import BannerViewModel from "@/viewModels/BannerViewModel/BannerViewModel";
+import { BlogDataAdapter } from "@/utils/BlogDataAdapter";
 
 /**
  * Trang chi tiết blog - View component
  * Sử dụng các component nhỏ và ViewModel để quản lý logic
  */
 const BlogsDetail = () => {
-  const { slug } = useParams<{ slug: string }>();
+  const { id, slug } = useParams<{ id: string; slug: string }>();
 
   // Sử dụng ViewModel để quản lý logic
   const {
     blog,
-    relatedBlogs,
     recentBlogs,
     categories,
     tags,
@@ -30,6 +29,7 @@ const BlogsDetail = () => {
     showBackToTop,
     isLoading,
     searchTerm,
+    error,
     handleNavigate,
     handleShareFacebook,
     handleShareTwitter,
@@ -37,9 +37,32 @@ const BlogsDetail = () => {
     handleSearch,
     handleSearchTermChange,
     scrollToTop,
-  } = useBlogsDetailViewModel(slug);
+  } = useBlogsDetailViewModel(slug || id);
 
-  // Xử lý trường hợp không tìm thấy blog
+  // Xử lý trường hợp không tìm thấy blog hoặc đang loading
+  if (isLoading) {
+    return <BlogsDetailSkeleton />;
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">
+            Có lỗi xảy ra
+          </h1>
+          <p className="text-gray-600 mb-6">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-6 py-3 bg-[#8B7355] text-white rounded-lg hover:bg-[#6B5A47] transition-colors duration-200"
+          >
+            Tải lại trang
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   if (!blog) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -47,6 +70,9 @@ const BlogsDetail = () => {
           <h1 className="text-2xl font-bold text-gray-900 mb-4">
             Không tìm thấy bài viết
           </h1>
+          <p className="text-gray-600 mb-6">
+            Bài viết bạn tìm kiếm không tồn tại hoặc đã bị xóa.
+          </p>
           <button
             onClick={() => handleNavigate("/blogs")}
             className="px-6 py-3 bg-[#B8860B] text-white rounded-lg hover:bg-[#A0741A] transition-colors"
@@ -68,8 +94,8 @@ const BlogsDetail = () => {
       <SEOHead
         title={blog.title}
         description={blog.description}
-        image={blog.image}
-        category={blog.category}
+        image={blog.featuredImage}
+        category="Thiết kế nội thất"
         type="article"
       />
 
@@ -81,16 +107,19 @@ const BlogsDetail = () => {
         // subtitle="TRANG CHỦ / TIN TỨC"
       />
         <BlogsDetailHeader
-          title="10 MẸO HÀNG ĐẦU CHO THIẾT KẾ NỘI THẤT NHÀ BẾP CỦA BẠN"
-          image={blog.image}
-          altText={blog.title}
+          title={blog.title}
+          image={blog.featuredImage || '/placeholder-image.svg'}
+          altText={blog.featuredImageAlt}
         />
 
         {/* Main Content */}
         <div className="max-w-[1500px] mx-auto px-4 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Nội dung chính - 3 cột */}
-            <BlogsDetailContent blog={blog} onNavigate={handleNavigate} />
+            <BlogsDetailContent 
+              blog={BlogDataAdapter.toBlogsDetailContentFormat(blog)} 
+              onNavigate={handleNavigate} 
+            />
 
             {/* Sidebar - 1 cột */}
             <BlogsDetailSidebar
@@ -98,7 +127,7 @@ const BlogsDetail = () => {
               onSearchTermChange={handleSearchTermChange}
               onSearchSubmit={handleSearch}
               categories={categories}
-              recentBlogs={recentBlogs}
+              recentBlogs={BlogDataAdapter.toSidebarRecentBlogsFormat(recentBlogs)}
               tags={tags}
               archives={archives}
               onNavigate={handleNavigate}
@@ -114,11 +143,6 @@ const BlogsDetail = () => {
           />
         </div>
 
-        {/* Related Blogs */}
-        <RelatedBlogsList
-          relatedBlogs={relatedBlogs}
-          onNavigate={handleNavigate}
-        />
 
         {/* Back to Top Button */}
         {showBackToTop && (

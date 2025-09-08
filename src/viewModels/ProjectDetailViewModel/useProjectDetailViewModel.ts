@@ -1,19 +1,45 @@
 import { useState, useEffect } from 'react';
+import type { ProjectData } from '@/models/ProjectType/ProjectType';
+import { ProjectService } from '@/Services/ProjectService';
 
+// Interface cho dữ liệu đã được transform từ WordPress API
 export interface ProjectDetail {
   id: string;
   title: string;
   description: string;
+  content: string;
   mainImage: string;
   galleryImages: string[];
   type: string;
   budget: string;
   duration: string;
-  teamSize: string;
   location: string;
-  createdAt?: string;
-  status: 'completed' | 'in-progress' | 'planned';
+  slug: string;
+  date: string;
+  status: 'published' | 'draft' | 'private';
 }
+
+// Function để transform dữ liệu từ WordPress API thành ProjectDetail
+const transformProjectData = (data: ProjectData): ProjectDetail => {
+  const galleryImages = data.acf.project_gallery?.map(img => img.url) || [];
+  const mainImage = galleryImages[0] || '';
+  
+  return {
+    id: data.id.toString(),
+    title: data.title.rendered,
+    description: data.acf.project_description || '',
+    content: data.acf.project_content || '', // Sử dụng content.rendered từ WordPress
+    mainImage,
+    galleryImages,
+    type: 'project', // Có thể tùy chỉnh theo phân loại
+    budget: data.acf.project_budget || '',
+    duration: data.acf.project_duration || '',
+    location: data.acf.project_location || '',
+    slug: data.slug,
+    date: data.date,
+    status: data.status === 'publish' ? 'published' : data.status as 'published' | 'draft' | 'private'
+  };
+};
 
 export const useProjectDetailViewModel = (projectId: string) => {
   const [projectDetail, setProjectDetail] = useState<ProjectDetail | null>(null);
@@ -26,31 +52,13 @@ export const useProjectDetailViewModel = (projectId: string) => {
       try {
         setLoading(true);
         
-        // Mock data - replace with actual API call
-        const mockProjectDetail: ProjectDetail = {
-          id: projectId,
-          title: "THIẾT KẾ SANG TRỌNG",
-          description: "Dự án thiết kế nội thất phòng khách sang trọng với tông màu beige và brown chủ đạo. Không gian được bố trí hợp lý với ghế sofa modular, bàn trà hiện đại và các chi tiết trang trí tinh tế. Ánh sáng tự nhiên được tận dụng tối đa qua cửa sổ lớn, tạo cảm giác thoáng đãng và ấm cúng. Thiết kế hướng đến sự hoàn hảo trong từng chi tiết, mang lại không gian sống đẳng cấp và thoải mái cho gia đình.",
-          mainImage: "/src/assets/Images/bannerHome.jpg",
-          galleryImages: [
-            "/src/assets/Images/aboutUs1.jpg",
-            "/src/assets/Images/aboutUs2.jpg", 
-            "/src/assets/Images/bannerAboutUs.png",
-            "/src/assets/Images/kep.png"
-          ],
-          type: "Interior Design",
-          budget: "500 triệu",
-          duration: "3 tháng",
-          teamSize: "5 người",
-          location: "Hà Nội, Việt Nam",
-          status: 'completed',
-          createdAt: new Date().toISOString()
-        };
-
-        // Simulate API delay
-        await new Promise(resolve => setTimeout(resolve, 800));
+        // Gọi API WordPress thực tế thông qua Service
+        const projectData = await ProjectService.getProjectById(projectId);
         
-        setProjectDetail(mockProjectDetail);
+        // Transform dữ liệu từ WordPress API format sang ProjectDetail format
+        const transformedProject = transformProjectData(projectData);
+        
+        setProjectDetail(transformedProject);
       } catch (err) {
         setError('Không thể tải thông tin dự án');
         console.error('Error fetching project detail:', err);

@@ -14,6 +14,7 @@ export interface BlogsDetailContentProps {
     id: string;
     title: string;
     description: string;
+    content?: string; // Thêm content để render HTML
     category?: string;
     date: string;
     readTime?: string;

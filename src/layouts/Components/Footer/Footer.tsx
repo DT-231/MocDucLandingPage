@@ -1,20 +1,24 @@
 import { FaFacebook, FaTiktok } from "react-icons/fa";
 import { SiZalo } from "react-icons/si";
+import { useWordPressData } from "../../../hooks/useWordPressData";
 
 const Footer = () => {
+  // Lấy dữ liệu từ WordPress Customizer
+  const { companyName, companyPhone, companyAddress } = useWordPressData();
+
   return (
     <footer className="bg-[#FEFFFA] py-8 md:py-12 border-t border-gray-200">
       <div className="max-w-[1300px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Company Name */}
         <div className="mb-8 md:mb-12">
           <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-primary mb-2 text-center md:text-left">
-            CÔNG TY TNHH TƯ VẤN THIẾT KẾ THI CÔNG NỘI THẤT MỘC ĐỨC
+            {companyName}
           </h2>
           <div className="w-full h-px bg-gray-300"></div>
         </div>
 
-        {/* Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+        {/* Footer Content - Chia thành 4 cột như trong ảnh */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Contact Info */}
           <div>
             <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-4 md:mb-6">
@@ -45,7 +49,7 @@ const Footer = () => {
                 </div>
                 <div>
                   <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                    84-86 Đ. Nguyên Công Trứ, An Khê, TP. Đà Nẵng
+                    {companyAddress}
                   </p>
                 </div>
               </div>
@@ -67,10 +71,10 @@ const Footer = () => {
                   </svg>
                 </div>
                 <a
-                  href="tel:0905300703"
+                  href={`tel:${companyPhone.replace(/\s/g, '')}`}
                   className="text-sm md:text-base text-gray-600 hover:text-primary transition-colors"
                 >
-                  0905 300 703
+                  {companyPhone}
                 </a>
               </div>
 
@@ -91,7 +95,7 @@ const Footer = () => {
                   </svg>
                 </div>
                 <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                  84-86 Đ. Nguyên Công Trứ, An Khê, TP. Đà Nẵng
+                  {companyAddress}
                 </p>
               </div>
             </div>
@@ -139,6 +143,24 @@ const Footer = () => {
               >
                 Liên hệ
               </a>
+            </div>
+          </div>
+
+          {/* Bản đồ Google */}
+          <div>
+            <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-4 md:mb-6">
+              Bản đồ Google
+            </h3>
+            <div className="space-y-3 md:space-y-4"> 
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4912.84980333568!2d108.17644887609859!3d16.043713884632158!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31421995b1886ee5%3A0x8ed18932dfc7e66f!2zVGhp4bq_dCBL4bq_IC0gVGhpIEPDdG5nIE7hu5lpIFRo4bqldCBN4buZYyDEkOG7qWMgxJDDoCBO4bq1bmc!5e1!3m2!1svi!2s!4v1757172274498!5m2!1svi!2s"
+                width="100%"
+                height="200"
+                style={{ border: 0 }}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="rounded-lg shadow-md"
+              ></iframe>
             </div>
           </div>
 
@@ -197,8 +219,7 @@ const Footer = () => {
         {/* Bottom Copyright */}
         <div className="text-center">
           <p className="text-gray-600 text-xs md:text-sm leading-relaxed px-2">
-            © 2024 Công ty TNHH Tư vấn Thiết kế Thi công Nội thất Mộc Đức. All
-            rights reserved.
+            © 2024 {companyName}. All rights reserved.
           </p>
         </div>
       </div>
