@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import SEOHead from "@/components/SEOHead/SEOHead";
 import BlogsDetailSkeleton from "@/components/BlogsDetailSkeleton/BlogsDetailSkeleton";
 import FormContactViewModel from "@/viewModels/FormContactViewModel/FormContactViewModel";
@@ -17,7 +17,13 @@ import { BlogDataAdapter } from "@/utils/BlogDataAdapter";
  * Sử dụng các component nhỏ và ViewModel để quản lý logic
  */
 const BlogsDetail = () => {
-  const { id, slug } = useParams<{ id: string; slug: string }>();
+  const location = useLocation();
+  const { slug } = useParams<{ id: string; slug: string }>();
+  // Lấy idBlogs từ location.state hoặc fallback về id từ URL params
+  const idBlogs = (location.state as { idBlogs?: number | string })?.idBlogs;
+
+  // Chuyển đổi idBlogs thành string để tương thích với ViewModel
+  const blogIdentifier = slug || (idBlogs ? String(idBlogs) : undefined);
 
   // Sử dụng ViewModel để quản lý logic
   const {
@@ -37,7 +43,7 @@ const BlogsDetail = () => {
     handleSearch,
     handleSearchTermChange,
     scrollToTop,
-  } = useBlogsDetailViewModel(slug || id);
+  } = useBlogsDetailViewModel(blogIdentifier);
 
   // Xử lý trường hợp không tìm thấy blog hoặc đang loading
   if (isLoading) {
@@ -102,13 +108,13 @@ const BlogsDetail = () => {
       <div className="min-w-screen min-h-screen bg-white">
         {/* Header với tiêu đề lớn */}
         <BannerViewModel
-        type="other"
-        // title="TIN TỨC"
-        // subtitle="TRANG CHỦ / TIN TỨC"
-      />
+          type="other"
+          // title="TIN TỨC"
+          // subtitle="TRANG CHỦ / TIN TỨC"
+        />
         <BlogsDetailHeader
           title={blog.title}
-          image={blog.featuredImage || '/placeholder-image.svg'}
+          image={blog.featuredImage || "/placeholder-image.svg"}
           altText={blog.featuredImageAlt}
         />
 
@@ -116,9 +122,9 @@ const BlogsDetail = () => {
         <div className="max-w-[1500px] mx-auto px-4 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Nội dung chính - 3 cột */}
-            <BlogsDetailContent 
-              blog={BlogDataAdapter.toBlogsDetailContentFormat(blog)} 
-              onNavigate={handleNavigate} 
+            <BlogsDetailContent
+              blog={BlogDataAdapter.toBlogsDetailContentFormat(blog)}
+              onNavigate={handleNavigate}
             />
 
             {/* Sidebar - 1 cột */}
@@ -127,7 +133,9 @@ const BlogsDetail = () => {
               onSearchTermChange={handleSearchTermChange}
               onSearchSubmit={handleSearch}
               categories={categories}
-              recentBlogs={BlogDataAdapter.toSidebarRecentBlogsFormat(recentBlogs)}
+              recentBlogs={BlogDataAdapter.toSidebarRecentBlogsFormat(
+                recentBlogs
+              )}
               tags={tags}
               archives={archives}
               onNavigate={handleNavigate}
@@ -142,7 +150,6 @@ const BlogsDetail = () => {
             blog={blog}
           />
         </div>
-
 
         {/* Back to Top Button */}
         {showBackToTop && (
@@ -165,7 +172,7 @@ const BlogsDetail = () => {
             </svg>
           </button>
         )}
-        
+
         <FormContactViewModel isContactPage={true} />
       </div>
     </>

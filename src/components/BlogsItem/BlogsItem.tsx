@@ -17,7 +17,8 @@ const BlogsItem: React.FC<BlogsItemProps> = ({
 }) => {
   return (
     <Link
-      to={`/blogs/${blogs.id}/${blogs.slug}`}
+      to={`/blogs/${blogs.slug}`}
+      state={{ idBlogs: blogs.id }}
       className={`block relative ${
         line && "border-b-1 border-third"
       } font-primary  pb-10 overflow-hidden ${className}`}

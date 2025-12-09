@@ -9,7 +9,7 @@ interface ErrorDisplayProps {
 // Component hiển thị lỗi với tùy chọn thử lại
 const ErrorDisplay: React.FC<ErrorDisplayProps> = ({ error, onRetry }) => {
   return (
-    <div className="w-screen overflow-x-hidden flex items-center justify-center min-h-screen bg-[#FEFFFA]">
+    <div className=" overflow-x-hidden flex items-center justify-center min-h-screen bg-[#FEFFFA]">
       <div className="text-center max-w-md mx-auto px-4">
         {/* Error icon */}
         <div className="text-red-500 mb-4">

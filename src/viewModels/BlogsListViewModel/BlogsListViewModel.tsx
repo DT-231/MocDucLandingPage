@@ -6,6 +6,7 @@ import type { BlogItem } from "@/models/WordPressBlogType/WordPressBlogType";
 import type { Blogs } from "@/models/NewsType/NewsType";
 import LoadingSpinner from "@/components/LoadingSpinner/LoadingSpinner";
 import ErrorDisplay from "@/components/ErrorDisplay/ErrorDisplay";
+import { EmptyBlogs } from "@/components/EmptyDisplay";
 import { BlogsItem } from "@/components/News";
 
 const BlogsListViewModel: React.FC<BlogsListViewModelProps> = ({
@@ -13,6 +14,7 @@ const BlogsListViewModel: React.FC<BlogsListViewModelProps> = ({
   showReadMore = true,
   className = "",
 }) => {
+  
   // State để quản lý dữ liệu blogs từ API
   const [blogs, setBlogs] = useState<BlogItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -47,6 +49,8 @@ const BlogsListViewModel: React.FC<BlogsListViewModelProps> = ({
   // Fetch dữ liệu blogs từ API
   const fetchBlogs = async (page: number = 1, append: boolean = false) => {
     try {
+      console.log(page);
+      
       setLoading(true);
       setError(null);
 
@@ -113,20 +117,14 @@ const BlogsListViewModel: React.FC<BlogsListViewModelProps> = ({
     );
   }
 
+  
   // Không có dữ liệu
   if (blogs.length === 0) {
     return (
       <div
         className={`w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 ${className}`}
       >
-        <div className="text-center py-16">
-          <h3 className="text-2xl font-semibold text-gray-600 mb-4">
-            Chưa có bài viết nào
-          </h3>
-          <p className="text-gray-500">
-            Hãy quay lại sau để xem những bài viết mới nhất.
-          </p>
-        </div>
+        <EmptyBlogs onRetry={() => fetchBlogs(1, false)} />
       </div>
     );
   }
@@ -155,7 +153,8 @@ const BlogsListViewModel: React.FC<BlogsListViewModelProps> = ({
             <article className="bg-white">
               {/* Hình ảnh chính */}
               <Link
-                to={`/blogs/${blogs[0].id}/${blogs[0].slug  }`}
+                to={`/blogs/${blogs[0].slug}`}
+                state={{ idBlogs: blogs[0].id }}
                 className="block group"
               >
                 <div className="relative overflow-hidden aspect-[3.5/3] mb-8">
@@ -201,7 +200,8 @@ const BlogsListViewModel: React.FC<BlogsListViewModelProps> = ({
               <div className="space-y-6">
                 {/* Tiêu đề */}
                 <Link
-                  to={`/blogs/${blogs[0].id}/${blogs[0].slug}`}
+                  to={`/blogs/${blogs[0].slug}`}
+                  state={{ idBlogs: blogs[0].id }}
                   className="block group"
                 >
                   <h3 className="text-2xl md:text-3xl font-bold text-primary leading-tight mb-4 transition-colors duration-200">
@@ -217,7 +217,8 @@ const BlogsListViewModel: React.FC<BlogsListViewModelProps> = ({
                 {/* Nút đọc tiếp */}
                 {showReadMore && (
                   <Link
-                    to={`/blogs/${blogs[0].id}/${blogs[0].slug}`}
+                    to={`/blogs/${blogs[0].slug}`}
+                    state={{ idBlogs: blogs[0].id }}
                     className="inline-flex items-center gap-2 text-[#8B7355] hover:text-[#6B5A47] font-medium transition-colors duration-200 group"
                   >
                     <span>Đọc tiếp</span>

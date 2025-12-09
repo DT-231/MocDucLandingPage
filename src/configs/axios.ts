@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Tạo một custom axios instance với interceptor trả về data
 const request = axios.create({
-  baseURL: import.meta.env.VITE_API_URL
+  baseURL: import.meta.env.VITE_API_URL || 'https://mocduchome.com'
 });
 
 // Add a request interceptor

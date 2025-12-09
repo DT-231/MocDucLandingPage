@@ -47,7 +47,7 @@ export interface WordPressFeaturedImage {
 
 export interface WordPressACF {
   title: string;
-  featured_image: WordPressFeaturedImage;
+  featured_image: WordPressFeaturedImage | false; // Có thể là false khi không có ảnh
   content_blog: string;
 }
 

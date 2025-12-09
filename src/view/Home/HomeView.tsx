@@ -95,7 +95,7 @@ const HomeView = () => {
               size={20}
               className="sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 "
             />{" "}
-            0902300703
+            0905300703
           </>
         }
         classNameBtn="flex justify-center items-center tracking-[2px] sm:tracking-[3px] md:tracking-[4px] lg:tracking-[6px] gap-2 sm:gap-3 font-black"

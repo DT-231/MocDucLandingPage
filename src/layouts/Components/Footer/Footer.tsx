@@ -1,10 +1,18 @@
 import { FaFacebook, FaTiktok } from "react-icons/fa";
 import { SiZalo } from "react-icons/si";
-import { useWordPressData } from "../../../hooks/useWordPressData";
+import { useCompanyData } from "@viewModels/hooks/useWordPressData";
 
 const Footer = () => {
-  // Lấy dữ liệu từ WordPress Customizer
-  const { companyName, companyPhone, companyAddress } = useWordPressData();
+  // Lấy dữ liệu công ty từ WordPress Customizer
+  const { companyData } = useCompanyData();
+  
+  const companyName = companyData?.name || 'CÔNG TY TNHH TƯ VẤN THIẾT KẾ THI CÔNG NỘI THẤT MỘC ĐỨC';
+  const companyPhone = companyData?.phone || '0905 300 703';
+  const companyEmail = companyData?.email || 'info@mocduc.com';
+  const companyAddress = companyData?.address || '84-86 Đ. Nguyên Công Trứ, An Khê, TP. Đà Nẵng';
+  const companyFacebook = companyData?.facebook || 'https://facebook.com/mocduc';
+  const companyTiktok = companyData?.tiktok || 'https://tiktok.com/@mocduc';
+  const companyZalo = companyData?.zalo || 'https://zalo.me/0905300703';
 
   return (
     <footer className="bg-[#FEFFFA] py-8 md:py-12 border-t border-gray-200">
@@ -78,8 +86,8 @@ const Footer = () => {
                 </a>
               </div>
 
-              <div className="flex items-start gap-3">
-                <div className="bg-primary/10 rounded-full p-2 flex-shrink-0 mt-1">
+              <div className="flex items-center gap-3">
+                <div className="bg-primary/10 rounded-full p-2 flex-shrink-0">
                   <svg
                     className="w-4 h-4 md:w-5 md:h-5 text-primary"
                     fill="none"
@@ -94,9 +102,12 @@ const Footer = () => {
                     />
                   </svg>
                 </div>
-                <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                  {companyAddress}
-                </p>
+                <a
+                  href={`mailto:${companyEmail}`}
+                  className="text-sm md:text-base text-gray-600 hover:text-primary transition-colors"
+                >
+                  {companyEmail}
+                </a>
               </div>
             </div>
           </div>
@@ -188,21 +199,27 @@ const Footer = () => {
               {/* Social Media Icons */}
               <div className="flex gap-3">
                 <a
-                  href="#"
+                  href={companyFacebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="bg-primary w-8 h-8 md:w-10 md:h-10 flex items-center text-lg md:text-xl justify-center text-white rounded-full hover:bg-primary/80 transition-colors"
                   aria-label="Facebook"
                 >
                   <FaFacebook />
                 </a>
                 <a
-                  href="#"
+                  href={companyTiktok}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="bg-primary w-8 h-8 md:w-10 md:h-10 text-white text-lg md:text-xl flex items-center justify-center rounded-full hover:bg-primary/80 transition-colors"
                   aria-label="TikTok"
                 >
                   <FaTiktok />
                 </a>
                 <a
-                  href="#"
+                  href={companyZalo}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="bg-primary w-8 h-8 md:w-10 md:h-10 text-white flex items-center justify-center text-lg md:text-xl rounded-full hover:bg-primary/80 transition-colors"
                   aria-label="Zalo"
                 >

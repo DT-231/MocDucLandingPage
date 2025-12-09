@@ -21,20 +21,25 @@ export interface ProjectDetail {
 
 // Function để transform dữ liệu từ WordPress API thành ProjectDetail
 const transformProjectData = (data: ProjectData): ProjectDetail => {
-  const galleryImages = data.acf.project_gallery?.map(img => img.url) || [];
-  const mainImage = galleryImages[0] || '';
+  // Kiểm tra và xử lý project_gallery - có thể là false hoặc array
+  const galleryImages = Array.isArray(data.acf.project_gallery) 
+    ? data.acf.project_gallery.map(img => img.url) 
+    : [];
+  
+  // Sử dụng ảnh đầu tiên trong gallery hoặc ảnh placeholder
+  const mainImage = galleryImages[0] || '/placeholder-image.svg';
   
   return {
     id: data.id.toString(),
     title: data.title.rendered,
     description: data.acf.project_description || '',
-    content: data.acf.project_content || '', // Sử dụng content.rendered từ WordPress
+    content: data.acf.project_content || data.content.rendered || '', // Fallback sang content.rendered nếu project_content rỗng
     mainImage,
     galleryImages,
     type: 'project', // Có thể tùy chỉnh theo phân loại
-    budget: data.acf.project_budget || '',
-    duration: data.acf.project_duration || '',
-    location: data.acf.project_location || '',
+    budget: data.acf.project_budget || 'Đang cập nhật',
+    duration: data.acf.project_duration || 'Đang cập nhật',
+    location: data.acf.project_location || 'Đang cập nhật',
     slug: data.slug,
     date: data.date,
     status: data.status === 'publish' ? 'published' : data.status as 'published' | 'draft' | 'private'

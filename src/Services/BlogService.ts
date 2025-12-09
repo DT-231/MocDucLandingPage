@@ -1,4 +1,4 @@
-import axios from 'axios';
+import request from '@/configs/axios';
 import type { 
   WordPressBlogResponse, 
   BlogItem, 
@@ -6,18 +6,8 @@ import type {
   BlogsApiResponse 
 } from '@/models/WordPressBlogType/WordPressBlogType';
 
-// Base URL cho WordPress API
-const WORDPRESS_API_BASE_URL = 'http://localhost:8085/wp-json/wp/v2';
-const BLOGS_ENDPOINT = '/blogs';
-
-// Tạo instance axios riêng cho WordPress API
-const wordpressApi = axios.create({
-  baseURL: WORDPRESS_API_BASE_URL,
-  timeout: 10000, // 10 giây timeout
-  headers: {
-    'Content-Type': 'application/json',
-  }
-});
+// Endpoint cho blogs API
+const BLOGS_ENDPOINT = '/wp-json/wp/v2/blogs';
 
 /**
  * Utility function để tính toán thời gian đọc dự kiến
@@ -58,13 +48,22 @@ const extractDescription = (htmlContent: string, maxLength: number = 150): strin
  * @returns BlogItem đã được chuẩn hóa
  */
 const transformWordPressBlogToBlogItem = (wpBlog: WordPressBlogResponse): BlogItem => {
+  // Kiểm tra featured_image có phải là object hay false
+  const featuredImageUrl = wpBlog.acf.featured_image && typeof wpBlog.acf.featured_image === 'object'
+    ? wpBlog.acf.featured_image.url
+    : '/placeholder-image.svg';
+  
+  const featuredImageAlt = wpBlog.acf.featured_image && typeof wpBlog.acf.featured_image === 'object'
+    ? wpBlog.acf.featured_image.alt || wpBlog.acf.title || wpBlog.title.rendered
+    : wpBlog.acf.title || wpBlog.title.rendered;
+  
   return {
     id: wpBlog.id,
     title: wpBlog.acf.title || wpBlog.title.rendered,
     description: extractDescription(wpBlog.acf.content_blog || wpBlog.content.rendered),
-    content: wpBlog.acf.content_blog || wpBlog.content.rendered,
-    featuredImage: wpBlog.acf.featured_image?.url || '',
-    featuredImageAlt: wpBlog.acf.featured_image?.alt || wpBlog.acf.title || wpBlog.title.rendered,
+    content: wpBlog.acf.content_blog || wpBlog.content.rendered || '',
+    featuredImage: featuredImageUrl,
+    featuredImageAlt: featuredImageAlt,
     date: wpBlog.date,
     slug: wpBlog.slug,
     link: wpBlog.link,
@@ -81,6 +80,9 @@ export class BlogService {
    * Lấy danh sách tất cả blogs với các tham số tùy chọn
    * @param params - Các tham số query như page, per_page, search, etc.
    * @returns Promise chứa danh sách blogs và metadata
+   * 
+   * Lưu ý: Do sử dụng axios interceptor, không thể truy cập response headers
+   * nên logic phân trang được đơn giản hóa dựa trên số lượng items trả về
    */
   static async getAllBlogs(params: BlogsApiParams = {}): Promise<BlogsApiResponse> {
     try {
@@ -92,7 +94,7 @@ export class BlogService {
         order = 'desc'
       } = params;
 
-      const response = await wordpressApi.get<WordPressBlogResponse[]>(BLOGS_ENDPOINT, {
+      const response = await request.get<WordPressBlogResponse[]>(BLOGS_ENDPOINT, {
         params: {
           page,
           per_page,
@@ -103,19 +105,19 @@ export class BlogService {
         }
       });
 
-      // Lấy thông tin phân trang từ response headers
-      const total = parseInt(response.headers['x-wp-total'] || '0');
-      const totalPages = parseInt(response.headers['x-wp-totalpages'] || '1');
-
       // Chuyển đổi dữ liệu
-      const transformedBlogs = response.data.map(transformWordPressBlogToBlogItem);
+      const transformedBlogs = response.map(transformWordPressBlogToBlogItem);
 
+      // Logic phân trang dựa trên số lượng items trả về
+      // Nếu số items < per_page, có nghĩa là đây là trang cuối
+      const hasMore = response.length === per_page;
+      
       return {
         data: transformedBlogs,
-        total,
-        totalPages,
+        total: response.length, // Chỉ có thể biết số lượng items trên trang hiện tại
+        totalPages: hasMore ? page + 1 : page, // Ước tính dựa trên việc có thêm trang hay không
         currentPage: page,
-        hasMore: page < totalPages
+        hasMore
       };
     } catch (error) {
       console.error('Lỗi khi lấy danh sách blogs:', error);
@@ -130,13 +132,13 @@ export class BlogService {
    */
   static async getBlogById(id: number): Promise<BlogItem> {
     try {
-      const response = await wordpressApi.get<WordPressBlogResponse>(`${BLOGS_ENDPOINT}/${id}`, {
+      const response = await request.get<WordPressBlogResponse>(`${BLOGS_ENDPOINT}/${id}`, {
         params: {
           _embed: true
         }
       });
 
-      return transformWordPressBlogToBlogItem(response.data);
+      return transformWordPressBlogToBlogItem(response);
     } catch (error) {
       console.error(`Lỗi khi lấy blog có ID ${id}:`, error);
       throw new Error('Không thể tải bài viết. Vui lòng thử lại sau.');
@@ -150,18 +152,18 @@ export class BlogService {
    */
   static async getBlogBySlug(slug: string): Promise<BlogItem> {
     try {
-      const response = await wordpressApi.get<WordPressBlogResponse[]>(BLOGS_ENDPOINT, {
+      const response = await request.get<WordPressBlogResponse[]>(BLOGS_ENDPOINT, {
         params: {
           slug,
           _embed: true
         }
       });
 
-      if (response.data.length === 0) {
+      if (response.length === 0) {
         throw new Error('Không tìm thấy bài viết');
       }
 
-      return transformWordPressBlogToBlogItem(response.data[0]);
+      return transformWordPressBlogToBlogItem(response[0]);
     } catch (error) {
       console.error(`Lỗi khi lấy blog có slug ${slug}:`, error);
       throw new Error('Không thể tải bài viết. Vui lòng thử lại sau.');

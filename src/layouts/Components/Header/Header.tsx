@@ -2,11 +2,31 @@ import HeaderContextJson from "@data/headerContext.json";
 import Images from "@assets/Images";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useHeaderData, useCompanyData } from "@viewModels/hooks/useWordPressData";
 
 const Header = () => {
+  // Lấy dữ liệu header từ WordPress Customizer
+  const { headerData } = useHeaderData();
+  const { companyData } = useCompanyData();
+  
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+  // Normalize menu items để có cùng structure với type safety
+  const normalizeMenuItems = () => {
+    if (headerData?.menu_items && Array.isArray(headerData.menu_items) && headerData.menu_items.length > 0) {
+      return headerData.menu_items.map((item: { label: string; href: string }) => ({
+        title: item.label,
+        path: item.href
+      }));
+    }
+    return HeaderContextJson;
+  };
+  
+  const menuItems = normalizeMenuItems();
+  const logoUrl = headerData?.logo_url || '';
+  const companyName = companyData?.name || 'Mộc Đức';
 
   useEffect(() => {
     // Update current path when location changes
@@ -55,8 +75,8 @@ const Header = () => {
       {/* logo */}
       <div className="logo-container flex-shrink-0">
         <img
-          src={Images.logoImageNoBackground}
-          alt="Mộc Đức Furniture"
+          src={logoUrl || Images.logoImageNoBackground}
+          alt={companyName || "Mộc Đức Furniture"}
           className={`logo w-[120px] transition-all duration-300 ${
             isScrolled ? "lg:w-[150px]" : "lg:w-[200px]"
           }`}
@@ -70,7 +90,7 @@ const Header = () => {
             isScrolled ? "text-gray-700" : "text-white/50"
           }`}
         >
-          {HeaderContextJson.map((item, index) => (
+          {menuItems.map((item, index) => (
             <li key={index} className="nav-item">
               <Link
                 to={item.path}
@@ -94,6 +114,8 @@ const Header = () => {
           ))}
         </ul>
       </nav>
+
+ 
 
       {/* Mobile menu button */}
       <button
@@ -152,7 +174,7 @@ const Header = () => {
 
         <nav className="p-4">
           <ul className="space-y-2">
-            {HeaderContextJson.map((item, index) => (
+            {menuItems.map((item, index) => (
               <li key={index}>
                 <Link
                   to={item.path}
@@ -168,6 +190,8 @@ const Header = () => {
               </li>
             ))}
           </ul>
+          
+        
         </nav>
       </div>
 

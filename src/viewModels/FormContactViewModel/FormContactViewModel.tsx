@@ -1,20 +1,21 @@
 import Images from "@assets/Images";
 import { Mail, MapPin, Phone, SendHorizontal } from "lucide-react";
 import { useState } from "react";
-import type {
-  FormContactViewModelProps,
-} from "@/models/FormContactViewModelType/FormContactViewModelType";
+import type { FormContactViewModelProps } from "@/models/FormContactViewModelType/FormContactViewModelType";
 import { useContactForm } from "@/viewModels/hooks/useContactForm";
 import { FormInput, FormTextArea } from "@/components/FormInput/FormInput";
 import FormNotification from "@/components/FormNotification/FormNotification";
+import { useCompanyData } from "@viewModels/hooks/useWordPressData";
 
 const FormContactViewModel: React.FC<FormContactViewModelProps> = ({
   isContactPage = false,
   className = "",
 }) => {
+  const { companyData } = useCompanyData();
   // Sử dụng custom hook để quản lý form logic
-  const { formState, handleInputChange, handleFieldBlur, handleSubmit } = useContactForm();
-  
+  const { formState, handleInputChange, handleFieldBlur, handleSubmit } =
+    useContactForm();
+
   // State để quản lý thông báo
   const [notification, setNotification] = useState<{
     type: "success" | "error";
@@ -39,7 +40,7 @@ const FormContactViewModel: React.FC<FormContactViewModelProps> = ({
         });
         // Tự động ẩn thông báo sau 5 giây
         setTimeout(() => {
-          setNotification(prev => ({ ...prev, isVisible: false }));
+          setNotification((prev) => ({ ...prev, isVisible: false }));
         }, 5000);
       },
       // Callback khi có lỗi
@@ -51,7 +52,7 @@ const FormContactViewModel: React.FC<FormContactViewModelProps> = ({
         });
         // Tự động ẩn thông báo sau 5 giây
         setTimeout(() => {
-          setNotification(prev => ({ ...prev, isVisible: false }));
+          setNotification((prev) => ({ ...prev, isVisible: false }));
         }, 5000);
       }
     );
@@ -64,9 +65,7 @@ const FormContactViewModel: React.FC<FormContactViewModelProps> = ({
           ? "bg-[#fefffa]"
           : "bg-[linear-gradient(0deg,rgba(255,255,255,0.71)_0%,#9F8467_100%)]"
       }`}
-    
     >
-    
       {/* Background Pattern/Image - Only show on desktop */}
       <div
         className={`absolute inset-0 opacity-10 hidden lg:${
@@ -91,7 +90,11 @@ const FormContactViewModel: React.FC<FormContactViewModelProps> = ({
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
               LIÊN HỆ VỚI CHÚNG TÔI
             </h2>
-            <p className={`text-base ${isContactPage  ? 'text-primary': 'text-second'}  sm:text-lg mb-6 sm:mb-8 opacity-90 leading-relaxed`}>
+            <p
+              className={`text-base ${
+                isContactPage ? "text-primary" : "text-second"
+              }  sm:text-lg mb-6 sm:mb-8 opacity-90 leading-relaxed`}
+            >
               Mộc Đức cung cấp sản phẩm và dịch vụ chất lượng cao và đáng tin
               cậy
             </p>
@@ -116,7 +119,7 @@ const FormContactViewModel: React.FC<FormContactViewModelProps> = ({
                       isContactPage && "text-second"
                     }`}
                   >
-                    0905 300 703
+                    {companyData?.phone || "0905 300 703"}
                   </span>
                 </div>
               </div>
@@ -131,7 +134,8 @@ const FormContactViewModel: React.FC<FormContactViewModelProps> = ({
                 </div>
                 <div>
                   <p className="text-base sm:text-lg md:text-xl font-medium">
-                    84 86 Đ. Nguyễn Công Triều, An Khê, TP. Đà Nẵng
+                    {companyData?.address ||
+                      "84 86 Đ. Nguyễn Công Triều, An Khê, TP. Đà Nẵng"}
                   </p>
                 </div>
               </div>
@@ -143,7 +147,7 @@ const FormContactViewModel: React.FC<FormContactViewModelProps> = ({
                 </div>
                 <div>
                   <p className="text-base sm:text-lg md:text-xl font-medium">
-                    0905 300 703
+                    {companyData?.phone || "0905 300 703"}
                   </p>
                 </div>
               </div>
@@ -155,7 +159,7 @@ const FormContactViewModel: React.FC<FormContactViewModelProps> = ({
                 </div>
                 <div>
                   <p className="text-base sm:text-lg md:text-xl font-medium break-all">
-                    hoang2312004@gmail.com
+                    {companyData?.email || "info@mocduc.com"}
                   </p>
                 </div>
               </div>
@@ -185,7 +189,9 @@ const FormContactViewModel: React.FC<FormContactViewModelProps> = ({
                 type={notification.type}
                 message={notification.message}
                 isVisible={notification.isVisible}
-                onClose={() => setNotification(prev => ({ ...prev, isVisible: false }))}
+                onClose={() =>
+                  setNotification((prev) => ({ ...prev, isVisible: false }))
+                }
               />
 
               {/* Name and Phone Row */}
@@ -257,19 +263,19 @@ const FormContactViewModel: React.FC<FormContactViewModelProps> = ({
                     inline-flex border-1 border-primary items-center gap-2 
                     px-6 sm:px-8 py-2 sm:py-3 text-sm sm:text-base font-bold 
                     rounded-lg transition-all duration-300 
-                    ${formState.isLoading || formState.isSubmitted 
-                      ? 'opacity-50 cursor-not-allowed bg-gray-100 text-gray-500' 
-                      : 'text-primary hover:shadow-lg hover:bg-primary hover:text-white'
+                    ${
+                      formState.isLoading || formState.isSubmitted
+                        ? "opacity-50 cursor-not-allowed bg-gray-100 text-gray-500"
+                        : "text-primary hover:shadow-lg hover:bg-primary hover:text-white"
                     }
                   `}
                 >
                   <span>
-                    {formState.isLoading 
-                      ? "Đang gửi..." 
-                      : formState.isSubmitted 
-                        ? "Đã gửi!" 
-                        : "Gửi"
-                    }
+                    {formState.isLoading
+                      ? "Đang gửi..."
+                      : formState.isSubmitted
+                      ? "Đã gửi!"
+                      : "Gửi"}
                   </span>
                   <SendHorizontal size={18} className="sm:w-5 sm:h-5" />
                 </button>

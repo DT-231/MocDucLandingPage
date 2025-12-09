@@ -4,6 +4,9 @@ import { getProject } from '@/Services/ProjectServices';
 
 // ViewModel quản lý danh sách Project
 export const useProjectListViewModel = (initialLimit: number = 4) => {
+  // Đảm bảo initialLimit hợp lệ
+  const validInitialLimit = typeof initialLimit === 'number' && initialLimit > 0 ? initialLimit : 4;
+  
   // State quản lý trạng thái loading, error và dữ liệu
   const [state, setState] = useState<ProjectListViewModelState>({
     isLoading: false,
@@ -15,12 +18,16 @@ export const useProjectListViewModel = (initialLimit: number = 4) => {
   });
 
   // Hàm fetch danh sách Project từ WordPress API
-  const fetchProjects = async (limit: number = initialLimit, page: number = 1, append: boolean = false) => {
+  const fetchProjects = async (limit: number = validInitialLimit, page: number = 1, append: boolean = false) => {
     setState(prev => ({ ...prev, isLoading: true, error: null }));
     
     try {
+      // Đảm bảo tham số hợp lệ
+      const validLimit = typeof limit === 'number' && limit > 0 ? limit : validInitialLimit;
+      const validPage = typeof page === 'number' && page > 0 ? page : 1;
+      
       // Gọi API để lấy danh sách project
-      const projectsData = await getProject(limit, page);
+      const projectsData = await getProject(validLimit, validPage);
       
       if (projectsData && Array.isArray(projectsData)) {
         setState(prev => ({
@@ -49,38 +56,49 @@ export const useProjectListViewModel = (initialLimit: number = 4) => {
     }
   };
 
-  // Hàm load thêm project (phân trang)
-  const loadMoreProjects = async (limit: number = initialLimit) => {
+  // Hàm load thêm project (phân trang)  
+  const loadMoreProjects = async (limit: number = validInitialLimit) => {
     if (!state.isLoading && state.hasMore) {
-      await fetchProjects(limit, state.currentPage + 1, true);
+      // Đảm bảo limit luôn là number hợp lệ
+      const validLimit = typeof limit === 'number' && limit > 0 ? limit : validInitialLimit;
+      await fetchProjects(validLimit, state.currentPage + 1, true);
     }
   };
 
   // Hàm refresh danh sách
-  const refreshProjects = async (limit: number = initialLimit) => {
-    await fetchProjects(limit, 1, false);
+  const refreshProjects = async (limit: number = validInitialLimit) => {
+    // Đảm bảo limit luôn là number hợp lệ
+    const validLimit = typeof limit === 'number' && limit > 0 ? limit : validInitialLimit;
+    await fetchProjects(validLimit, 1, false);
   };
 
   // useEffect để tự động fetch dữ liệu khi component mount
   useEffect(() => {
-    fetchProjects(initialLimit);
-  }, [initialLimit]);
+    fetchProjects(validInitialLimit);
+  }, [validInitialLimit]);
 
   // Các getter functions để dễ dàng truy cập dữ liệu
   const getProjectsForDisplay = () => {
-    return state.projects.map(project => ({
-      id: project.id.toString(),
-      title: project.title.rendered,
-      description: project.acf.project_description.replace(/<[^>]*>/g, '').substring(0, 200) + '...', // Remove HTML tags và cắt ngắn
-      image: project.acf.project_gallery?.[0]?.url || '', // Lấy ảnh đầu tiên trong gallery
-      category: project.acf.project_location,
-      date: project.date,
-      status: 'completed' as const,
-      // Thêm các properties để tương thích với ProjectCard
-      slug: project.slug,
-      originalId: project.id, // ID số từ API
-      originalData: project // Giữ lại data gốc để sử dụng khi cần
-    }));
+    return state.projects.map(project => {
+      // Kiểm tra và lấy ảnh đầu tiên từ gallery
+      const firstImage = Array.isArray(project.acf.project_gallery) && project.acf.project_gallery.length > 0
+        ? project.acf.project_gallery[0].url
+        : '/placeholder-image.svg';
+      
+      return {
+        id: project.id.toString(),
+        title: project.title.rendered,
+        description: project.acf.project_description.replace(/<[^>]*>/g, '').substring(0, 200) + '...', // Remove HTML tags và cắt ngắn
+        image: firstImage, // Lấy ảnh đầu tiên trong gallery hoặc placeholder
+        category: project.acf.project_location,
+        date: project.date,
+        status: 'completed' as const,
+        // Thêm các properties để tương thích với ProjectCard
+        slug: project.slug,
+        originalId: project.id, // ID số từ API
+        originalData: project // Giữ lại data gốc để sử dụng khi cần
+      };
+    });
   };
 
   // Trả về state và các functions

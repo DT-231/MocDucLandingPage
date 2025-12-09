@@ -1,12 +1,13 @@
 import type { ProjectData } from '@/models/ProjectType/ProjectType';
+import request from '@/configs/axios';
 
 /**
  * Service xử lý các API calls liên quan đến Project
- * Kết nối với WordPress REST API
+ * Kết nối với WordPress REST API thông qua Axios
  */
 export class ProjectService {
   // Base URL cho project endpoint
-  private static readonly BASE_URL = 'http://localhost:8085/wp-json/wp/v2/project';
+  private static readonly ENDPOINT = '/wp-json/wp/v2/project';
 
   /**
    * Lấy chi tiết một dự án theo ID
@@ -15,13 +16,8 @@ export class ProjectService {
    */
   static async getProjectById(projectId: string | number): Promise<ProjectData> {
     try {
-      const response = await fetch(`${this.BASE_URL}/${projectId}`);
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      const data: ProjectData = await response.json();
+      // Sử dụng axios thông qua custom request instance
+      const data = await request.get<ProjectData>(`${this.ENDPOINT}/${projectId}`);
       return data;
     } catch (error) {
       console.error('Lỗi khi lấy chi tiết dự án:', error);
@@ -37,13 +33,13 @@ export class ProjectService {
    */
   static async getAllProjects(page: number = 1, perPage: number = 10): Promise<ProjectData[]> {
     try {
-      const response = await fetch(`${this.BASE_URL}?page=${page}&per_page=${perPage}`);
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      const data: ProjectData[] = await response.json();
+      // Sử dụng axios với query parameters
+      const data = await request.get<ProjectData[]>(this.ENDPOINT, {
+        params: {
+          page,
+          per_page: perPage
+        }
+      });
       return data;
     } catch (error) {
       console.error('Lỗi khi lấy danh sách dự án:', error);
@@ -58,13 +54,12 @@ export class ProjectService {
    */
   static async getProjectBySlug(slug: string): Promise<ProjectData> {
     try {
-      const response = await fetch(`${this.BASE_URL}?slug=${slug}`);
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      const data: ProjectData[] = await response.json();
+      // Sử dụng axios với query parameters
+      const data = await request.get<ProjectData[]>(this.ENDPOINT, {
+        params: {
+          slug
+        }
+      });
       
       if (data.length === 0) {
         throw new Error('Không tìm thấy dự án');

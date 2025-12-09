@@ -3,6 +3,7 @@ import { ProjectZigzagLayout, ProjectGalleryLayout } from "../../components/Proj
 import { useProjectListViewModel } from "@/viewModels/ProjectListViewModel";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ErrorDisplay from "@/components/ErrorDisplay";
+import { EmptyProjects } from "@/components/EmptyDisplay";
 
 interface ProjectFinalViewModelProps {
   type: "home" | "other";
@@ -39,6 +40,15 @@ const ProjectFinalViewModel = ({ type, mode }: ProjectFinalViewModelProps) => {
     return (
       <div className="bg-[four] font-primary py-20">
         <ErrorDisplay error={error} onRetry={refreshProjects} />
+      </div>
+    );
+  }
+
+  // Hiển thị empty state nếu không có dữ liệu
+  if (!isLoading && !error && displayProjects.length === 0) {
+    return (
+      <div className="bg-[four] font-primary py-20">
+        <EmptyProjects onRetry={refreshProjects} />
       </div>
     );
   }

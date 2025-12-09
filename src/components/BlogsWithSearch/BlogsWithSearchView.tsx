@@ -4,6 +4,7 @@ import { BlogService } from '@/Services/BlogService';
 import type { BlogItem } from '@/models/WordPressBlogType/WordPressBlogType';
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 import ErrorDisplay from '@/components/ErrorDisplay/ErrorDisplay';
+import { EmptySearchResult, EmptyBlogs } from '@/components/EmptyDisplay';
 import { Link } from 'react-router-dom';
 
 const BlogsWithSearchView: React.FC = () => {
@@ -178,27 +179,17 @@ const BlogsWithSearchView: React.FC = () => {
         />
       )}
 
-      {/* No Results */}
+      {/* No Search Results */}
       {!loading && !error && blogs.length === 0 && searchParams.get('search') && (
-        <div className="text-center py-16">
-          <div className="text-gray-400 mb-4">
-            <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </div>
-          <h3 className="text-xl font-semibold text-gray-600 mb-2">
-            Không tìm thấy kết quả
-          </h3>
-          <p className="text-gray-500 mb-6">
-            Không có bài viết nào khớp với từ khóa "{searchParams.get('search')}"
-          </p>
-          <button
-            onClick={handleClearSearch}
-            className="px-6 py-2 bg-[#8B7355] text-white rounded-lg hover:bg-[#6B5A47] transition-colors duration-200"
-          >
-            Xem tất cả bài viết
-          </button>
-        </div>
+        <EmptySearchResult
+          searchTerm={searchParams.get('search') || ''}
+          onClearSearch={handleClearSearch}
+        />
+      )}
+
+      {/* No Blogs at all */}
+      {!loading && !error && blogs.length === 0 && !searchParams.get('search') && (
+        <EmptyBlogs onRetry={() => fetchBlogs(1, '')} />
       )}
 
       {/* Blogs Grid */}

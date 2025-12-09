@@ -90,11 +90,15 @@ const ProjectDetailView = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
           {/* Left: Nội dung chi tiết từ WordPress Editor */}
           <div className="col-span-2">
-            {projectDetail.content && (
+            {projectDetail.content ? (
               <div className="pr-8">
                 <ProjectContentDescription
                   content={projectDetail.content}
                 />
+              </div>
+            ) : (
+              <div className="pr-8 text-gray-500 italic">
+                <p>Nội dung dự án đang được cập nhật...</p>
               </div>
             )}
           </div>
@@ -117,8 +121,8 @@ const ProjectDetailView = () => {
           <ProjectNavigation
             onBack={handleBack}
             onNext={handleNext}
-            backImage={projectDetail.galleryImages[1] || ""}
-            nextImage={projectDetail.galleryImages[2] || ""}
+            backImage={projectDetail.galleryImages[1] || "/placeholder-image.svg"}
+            nextImage={projectDetail.galleryImages[2] || "/placeholder-image.svg"}
             hasPrevious={parseInt(projectDetail.id) > 1}
             hasNext={true}
           />

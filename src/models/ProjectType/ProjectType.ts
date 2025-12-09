@@ -47,13 +47,12 @@ export interface ProjectImage {
 
 // Model cho ACF fields của Project
 export interface ProjectACF {
-  project_gallery: ProjectImage[];
+  project_gallery: ProjectImage[] | false; // Có thể là false khi không có ảnh
   project_location: string;
   project_duration: string;
   project_budget: string;
   project_description: string;
-  project_content:string;
-  
+  project_content: string;
 }
 
 // Model chính cho Project data từ WordPress API
