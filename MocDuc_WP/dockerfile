@@ -1,0 +1,10 @@
+# Dockerfile (nếu bạn muốn build riêng)
+FROM wordpress:latest
+
+# Copy source code wordpress-base (nếu cần)
+COPY . /var/www/html/
+
+# Thiết lập quyền nếu cần
+RUN chown -R www-data:www-data /var/www/html
+
+EXPOSE 80
