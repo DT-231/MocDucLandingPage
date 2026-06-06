@@ -1,6 +1,7 @@
 import { FaFacebook, FaTiktok } from "react-icons/fa";
 import { SiZalo } from "react-icons/si";
 import { useCompanyData } from "@viewModels/hooks/useWordPressData";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   // Lấy dữ liệu công ty từ WordPress Customizer
@@ -26,7 +27,7 @@ const Footer = () => {
         </div>
 
         {/* Footer Content - Chia thành 4 cột như trong ảnh */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-8">
           {/* Contact Info */}
           <div>
             <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-4 md:mb-6">
@@ -118,18 +119,18 @@ const Footer = () => {
               Liên kết nhanh
             </h3>
             <div className="space-y-2 md:space-y-3">
-              <a
-                href="#"
+              <Link
+                to={"/about-us"}
                 className="block text-sm md:text-base text-gray-600 hover:text-primary transition-colors"
               >
                 Giới thiệu
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
+                to="/projects"
                 className="block text-sm md:text-base text-gray-600 hover:text-primary transition-colors"
               >
                 Sản phẩm
-              </a>
+              </Link>
               <a
                 href="#"
                 className="block text-sm md:text-base text-gray-600 hover:text-primary transition-colors"
@@ -142,18 +143,18 @@ const Footer = () => {
               >
                 Câu hỏi thường gặp
               </a>
-              <a
-                href="#"
+              <Link 
+                to={"/blogs"}
                 className="block text-sm md:text-base text-gray-600 hover:text-primary transition-colors"
               >
                 Tin tức
-              </a>
-              <a
-                href="#"
+              </Link  >
+              <Link
+                to={"/contact"}
                 className="block text-sm md:text-base text-gray-600 hover:text-primary transition-colors"
               >
                 Liên hệ
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -191,7 +192,7 @@ const Footer = () => {
                   placeholder="Nhập Email của bạn"
                   className="flex-1 px-3 py-2 border-2 border-r-0 rounded-l-3xl border-primary   focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-xs md:text-sm"
                 />
-                <button className="bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded-r-3xl transition-colors text-xs md:text-sm whitespace-nowrap">
+                <button className="bg-primary hover:bg-primary/80 text-white px-2 py-2 rounded-r-3xl transition-colors text-xs md:text-sm whitespace-nowrap">
                   Đăng Ký
                 </button>
               </div>

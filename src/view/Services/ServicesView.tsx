@@ -5,30 +5,38 @@ import ProcessStepViewModel from "@/viewModels/ProcessStepViewModel/ProcessStepV
 import QuestionViewModel from "@/viewModels/QuestionViewModel/QuestionViewModel";
 import ServicesViewModel from "@/viewModels/ServicesViewModel/ServicesViewModel";
 import { Phone } from "lucide-react";
+import SEOHead from "@/components/SEOHead/SEOHead";
 
 const ServicesView = () => {
   return (
-    <div className="w-screen">
-      <BannerViewModel
-        type="other"
-        title="DỊCH VỤ"
-        subtitle="TRANG CHỦ / DỊCH VỤ"
+    <>
+      <SEOHead
+        title="Dịch vụ"
+        description="Dịch vụ tư vấn, thiết kế và thi công nội thất trọn gói của Mộc Đức."
+        type="website"
       />
-      <ServicesViewModel />
-      <ProcessStepViewModel />
-      <ContactViewModel
-        title={"HÃY TRỞ THÀNH MỘT ĐỐI TÁC CỦA MỘC ĐỨC NGAY HÔM NAY"}
-        href="tel:0902300703"
-        textBtn={
-          <>
-            <Phone size={30} /> 0902300703
-          </>
-        }
-        classNameBtn="flex justify-center items-center tracking-[6px] gap-3"
-      />
-      <QuestionViewModel />
-      <FormContactViewModel />
-    </div>
+      <div className="w-screen">
+        <BannerViewModel
+          type="other"
+          title="DỊCH VỤ"
+          subtitle="TRANG CHỦ / DỊCH VỤ"
+        />
+        <ServicesViewModel />
+        <ProcessStepViewModel />
+        <ContactViewModel
+          title={"HÃY TRỞ THÀNH MỘT ĐỐI TÁC CỦA MỘC ĐỨC NGAY HÔM NAY"}
+          href="tel:0902300703"
+          textBtn={
+            <>
+              <Phone size={30} /> 0902300703
+            </>
+          }
+          classNameBtn="flex justify-center items-center tracking-[6px] gap-3"
+        />
+        <QuestionViewModel />
+        <FormContactViewModel />
+      </div>
+    </>
   );
 };
 

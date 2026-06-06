@@ -14,6 +14,7 @@ const publicRoutes:PublicRouteType[]  = [
     { path: "/about-us", component: AboutView },
     { path: "/projects", component: ProjectsView },
     { path: "/project/:id/:slug", component: ProjectDetailView },
+    { path: "/project/:id", component: ProjectDetailView },
     { path: "/services", component: ServicesView },
     { path: "/blogs", component: BlogsView },
     { path: "/blogs/:slug", component: BlogsDetail },
@@ -21,4 +22,3 @@ const publicRoutes:PublicRouteType[]  = [
 ]
 
 export {publicRoutes}
-

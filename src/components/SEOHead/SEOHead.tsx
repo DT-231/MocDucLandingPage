@@ -17,11 +17,18 @@ const SEOHead: React.FC<SEOHeadProps> = ({
   type = 'article',
   category
 }) => {
-  const siteName = 'Mộc Đức Construction';
-  const defaultImage = '/src/assets/Images/bannerHome.jpg';
+  const siteName = 'Mộc Đức Furniture'; // Tên trang web của bạn
+  const defaultImage = '/Logo.png';
   const fullTitle = `${title} | ${siteName}`;
   const currentUrl = url || window.location.href;
-  const imageUrl = image || defaultImage;
+  const toAbsoluteUrl = (value: string) => {
+    try {
+      return new URL(value, window.location.origin).href;
+    } catch {
+      return value;
+    }
+  };
+  const imageUrl = toAbsoluteUrl(image || defaultImage);
   
   useEffect(() => {
     // Update document title

@@ -114,7 +114,7 @@ export const useBlogsDetailViewModel = (identifier?: string) => {
     { name: "Mẹo hay", count: 12 },
   ];
 
-  // Danh sách tags (dummy data - có thể mở rộng để lấy từ API)
+  // Danh sách tags (dadummy ta - có thể mở rộng để lấy từ API)
   const tags = [
     "thiết kế",
     "nội thất",
