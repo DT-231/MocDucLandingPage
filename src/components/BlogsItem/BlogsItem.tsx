@@ -57,7 +57,8 @@ const BlogsItem: React.FC<BlogsItemProps> = ({
 
           <div className="flex items-center justify-between">
             {showReadMore && (
-              <button className="text-primary text-sm font-medium hover:opacity-80 transition-all duration-200 flex items-center gap-2 uppercase tracking-wide">
+              <Link  to={`/blogs/${blogs.slug}`} 
+               className=" text-primary text-sm font-medium hover:opacity-80 transition-all duration-200 flex items-center gap-2 uppercase tracking-wide">
                 XEM THÊM
                 <svg
                   className="w-4 h-4"
@@ -72,7 +73,7 @@ const BlogsItem: React.FC<BlogsItemProps> = ({
                     d="M9 5l7 7-7 7"
                   />
                 </svg>
-              </button>
+              </Link>
             )}
           </div>
         </div>

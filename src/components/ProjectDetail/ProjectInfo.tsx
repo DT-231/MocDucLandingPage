@@ -21,7 +21,7 @@ const ProjectInfo = ({ projectType = "Interior Design", location, duration, budg
 
   return (
     <div className="bg-white ">
-      <div className="space-y-8 flex flex-col gap-10">
+      <div className=" flex flex-col gap-12">
         <div className="flex justify-between items-center">
           <span className="font-medium text-primary  text-3xl tracking-wider">LOẠI</span>
           <span className="text-gray-800 text font-medium">{projectType}</span>

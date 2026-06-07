@@ -12,7 +12,19 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       output: {
-        manualChunks: undefined,
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            if (id.includes("react-dom") || id.includes("/react/")) {
+              return "vendor-react";
+            }
+            if (id.includes("framer-motion") || id.includes("motion")) {
+              return "vendor-motion";
+            }
+            if (id.includes("react-icons") || id.includes("lucide-react")) {
+              return "vendor-icons";
+            }
+          }
+        },
       },
     },
   },

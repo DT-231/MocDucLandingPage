@@ -73,7 +73,7 @@ const Header = () => {
     >
       {}
       {/* logo */}
-      <div className="logo-container flex-shrink-0">
+      <Link to="/" className="logo-container flex-shrink-0">
         <img
           src={logoUrl || Images.logoImageNoBackground}
           alt={companyName || "Mộc Đức Furniture"}
@@ -81,7 +81,7 @@ const Header = () => {
             isScrolled ? "lg:w-[150px]" : "lg:w-[200px]"
           }`}
         />
-      </div>
+      </Link>
 
       {/* Desktop navbar */}
       <nav className="navbar hidden lg:flex flex-1 justify-end">

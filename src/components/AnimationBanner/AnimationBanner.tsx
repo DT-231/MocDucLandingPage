@@ -59,12 +59,13 @@ export default function AnimationBanner({ showButton = true }: { showButton?: bo
       {showButton && (
         <motion.div variants={item}>
           <Button
+          to={"/projects"}
             primary={true}
             classNames={
               "rounded-4xl text-xs sm:text-sm md:text-base lg:text-lg font-light uppercase tracking-wider transition-all duration-300 hover:bg-[#8A7258] px-4 font-primary sm:px-6 md:px-8 py-2 sm:py-3"
             }
           >
-            VIEW PROJECT
+            Xem dự án
           </Button>
         </motion.div>
       )}

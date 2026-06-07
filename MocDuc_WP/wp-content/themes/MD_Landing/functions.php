@@ -1,4 +1,7 @@
 <?php
+require_once get_template_directory() . '/inc/seo.php';
+require_once get_template_directory() . '/inc/sitemap.php';
+
 function mytheme_enqueue_assets() {
     $theme_uri = get_template_directory_uri();
     $theme_dir = get_template_directory();
@@ -27,6 +30,60 @@ function mytheme_enqueue_assets() {
     }
 }
 add_action('wp_enqueue_scripts', 'mytheme_enqueue_assets');
+
+function mytheme_enqueue_rank_math_acf_analysis($hook) {
+    if (!in_array($hook, array('post.php', 'post-new.php'), true)) {
+        return;
+    }
+
+    if (!function_exists('rank_math')) {
+        return;
+    }
+
+    $screen = get_current_screen();
+    if (!$screen || !in_array($screen->post_type, array('project', 'blogs', 'post'), true)) {
+        return;
+    }
+
+    $script_path = get_template_directory() . '/assets/js/rank-math-acf-analysis.js';
+    if (!file_exists($script_path)) {
+        return;
+    }
+
+    wp_enqueue_script(
+        'mocduc-rank-math-acf-analysis',
+        get_template_directory_uri() . '/assets/js/rank-math-acf-analysis.js',
+        array('wp-hooks', 'rank-math-analyzer'),
+        filemtime($script_path),
+        true
+    );
+
+    wp_localize_script(
+        'mocduc-rank-math-acf-analysis',
+        'mocducRankMathAcf',
+        array(
+            'postType' => $screen->post_type,
+            'fields' => array(
+                'project' => array(
+                    'project_description',
+                    'project_content',
+                    'project_location',
+                    'project_duration',
+                    'project_budget',
+                ),
+                'blogs' => array(
+                    'title',
+                    'content_blog',
+                ),
+                'post' => array(
+                    'title',
+                    'content_blog',
+                ),
+            ),
+        )
+    );
+}
+add_action('admin_enqueue_scripts', 'mytheme_enqueue_rank_math_acf_analysis');
 
 // Tắt jQuery nếu không cần thiết để tránh xung đột
 function remove_jquery() {
@@ -363,4 +420,3 @@ function mytheme_localize_scripts() {
     wp_localize_script('vite-script', 'wpData', $wp_data);
 }
 add_action('wp_enqueue_scripts', 'mytheme_localize_scripts', 20);
-
